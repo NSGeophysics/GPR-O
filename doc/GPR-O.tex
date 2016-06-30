@@ -665,4 +665,25 @@ At this point, in a geophysical investigation, we would go back to the
 the GPR profiles in Section~\ref{secProfiles} and replace the velocity
 there with the velocities that we just obtained.
 
+\section{Topography}
+
+GPR-O can account for topography. Use the function
+
+\qquad \verb#makeElev#
+
+to prepare an interpolated topography matrix from elevation values on
+a grid or along a line (the grid has to have the same spacing on each
+line). Then use the function
+
+\qquad \verb#elevCorrect#
+
+to shift each trace by the (interpolated) corresponding two-way travel
+time.
+
+I will add a more detailed description at a later point. Keep your
+software and this documentation updated by regularly running, in a
+command prompt/terminal in the folder GPR-O
+
+\qquad \verb#git pull origin master#
+
 \end{document}
