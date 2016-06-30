@@ -43,9 +43,18 @@ contains a few subfolders and a few m-files. Each m-file is a computer
 program that was written for Octave (or Matlab; they are for our
 programs here interchangeable).
 
-To give Octave access to all the subprograms you need to run
+If you are using Matlab, to access to all the subprograms you need to run
 
-\qquad \verb#setpaths#
+\qquad \verb#initialize#
+
+If you are using Octave, run
+
+\qquad \verb#initialize_octave#
+
+instead. The first time you run this initialization, it will check if
+all required Octave packages are already installed and if not, will
+automatically install them. This may take a few minutes. Next time you
+run it, it will not need to install the packages anymore.
 
 We will use a variety of programs that are stored in the
 subfolders. Whenever you want to know what a program does and what

@@ -1,6 +1,8 @@
 # GPR-O
 Octave/Matlab programs for processing and plotting 2D and 3D Ground Penetrating Radar data
 
+Check out the documentation [GPR-O]()
+
 ##Installation instructions for Windows
 To be able to install the software you will need to have the following two programs installed:
 
@@ -51,5 +53,12 @@ and run the setup script
 
 This will set up the folder structure and download some additional data files.
 
+## Running under Matlab
+After starting Matlab, switch into the GPR-O folder and run in Matlab
 
+`initialize`
 
+## Running under Octave
+After starting Octave, switch into the GPR-O folder and run in Octave
+
+`initialize_octave`
