@@ -1,0 +1,6 @@
+.DS_Store
+*~
+*.aux
+*.toc
+*.log
+\#*
