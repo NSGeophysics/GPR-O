@@ -1,8 +1,4 @@
 
-echo
-echo Downloading external m-files from Luca Baradello's website for reading PulseEkko Pro files
-echo ==========================================================================================
-echo
 
 mkdir ext
 cd ext

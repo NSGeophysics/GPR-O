@@ -1,6 +1,6 @@
 
 echo
-echo Downloading external m-files from Luca Baradello's website for reading PulseEkko Pro files
+echo Downloading external m-files from Luca Baradello website for reading PulseEkko Pro files
 echo ==========================================================================================
 echo
 
