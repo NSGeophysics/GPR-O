@@ -21,7 +21,8 @@ function data=elevCorrect(data,elev,vel)
 elev=elev-min(elev(:));
 
 % Turn each elevation point into a two way travel-time shift.
-etime=elev/vel;
+% It's two-way travel time
+etime=2*elev/vel;
 
 % Find time step
 tstep=data.finalti(2)-data.finalti(1);
