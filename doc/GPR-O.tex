@@ -690,7 +690,16 @@ command prompt/terminal in the folder GPR-O
 
 The function
 
-\qquad \verb#gpro2vtk# exports GPR-O data to a .vtk file, which can be
+\qquad \verb#gpro2vtk#
+
+exports GPR-O data to a .vtk file, which can be
 read by programs like ParaView etc.
+
+The function
+
+\qquad \verb#thresh#
+
+Removes values smaller than a percentage of the maximum data point
+value. This can be used to clean up traces before gain and export to VTK.
 
 \end{document}

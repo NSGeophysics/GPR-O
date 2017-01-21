@@ -29,7 +29,7 @@ for i=1:length(trace)
         winend=length(trace);
     end            
     
-    energy(i)=norm(trace(winstart:winend));
+    energy(i)=max(norm(trace(winstart:winend)),sqrt(eps));
 end
 
 % Now normalize trace entries by energy in each window
