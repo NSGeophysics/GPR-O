@@ -17,7 +17,7 @@ function preprawdata(surveyparams,XorY)
 %               Y then set XorY=1
 %               nothing then set XorY=2
 %
-% Last modified by plattner-at-alumni.ethz.ch, 6/16/2015
+% Last modified by plattner-at-alumni.ethz.ch, 4/13/2017
 
 nlines=surveyparams.nlines;
 lineincr=surveyparams.lineincr;
@@ -48,25 +48,11 @@ for i=0:nlines
     % We assume that all traces have an equal number of time samples:
     twtt=linspace(0,header.ttw,header.ppt);
     xpos=linspace(header.stp,header.fip,header.ntr);
+    % If the unit is feet, we need to change this here
+    if strcmp(header.unit,'ft')
+        xpos=xpos*0.3048;
+    end
 
-    
-    % These are processing steps. I want to be able to do them without
-    % needing to read and write the data again.
-%     % Do AGC (automated gain controll) that makes the traces have roughly
-%     % constant energy (amplify weaker signals from further away)
-%     for tr=1:size(data,2)
-%         data(:,tr)=AutoGain(data(:,tr),AGwindow);
-%     end
-%     
-%     % Remove Horizontal features
-%     if removeHorz~=0
-%     	% First find the right time coordinate entry:
-%     	%timewidth=max(2,max(find(IPD.tt2w<=timewindow)));
-%     	% Now do it
-%     	%IPD.d = csuf_rmswbackgr(IPD.d,removeHorz,timewidth);
-%         data=removeHorizfeat(data,removeHorz);
-%     end
-    
     save([pnametrf fname '.mat'],'data','twtt','xpos')
     
     fprintf('Done with line %d\n',i)

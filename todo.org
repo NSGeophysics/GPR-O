@@ -1,1 +1,5 @@
 * TODO Write doc part about topography in 2D and 3D
+* DONE Make automatic feet to meter transformation
+* TODO Make loading of files not require XLINE00, etc.
+  Also, use fullfile. Automatically read all the lines.
+  Then, allow either one single number for the offset, or a vector
