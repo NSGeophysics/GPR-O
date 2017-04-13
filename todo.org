@@ -3,3 +3,4 @@
 * TODO Make loading of files not require XLINE00, etc.
   Also, use fullfile. Automatically read all the lines.
   Then, allow either one single number for the offset, or a vector
+* TODO Improve gpro2vtk to allow for general x y z positions 
