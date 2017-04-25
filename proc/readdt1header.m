@@ -3,7 +3,7 @@ function hd=readdt1header(filename)
 %
 % Returns a struct containing header information
 %
-% Last modified by plattner-at-alumni.ethz.ch, 4/29/2015
+% Last modified by plattner-at-alumni.ethz.ch, 4/13/2017
 
 fid=fopen([filename '.HD'],'r');
 
@@ -54,3 +54,9 @@ line=fgets(fid);
 line=fgets(fid);
 cont=textscan(line,'%s%s%s%s%f');
 hd.ssu=cont{5};
+
+% POSITION UNITS
+line=fgets(fid);
+line=fgets(fid);
+cont=textscan(line,'%s%s%s%s');
+hd.unit=cont{4};
