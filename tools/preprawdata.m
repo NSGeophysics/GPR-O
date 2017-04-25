@@ -17,7 +17,7 @@ function preprawdata(surveyparams,XorY)
 %               Y then set XorY=1
 %               nothing then set XorY=2
 %
-% Last modified by plattner-at-alumni.ethz.ch, 4/13/2017
+% Last modified by plattner-at-alumni.ethz.ch, 4/25/2017
 
 nlines=surveyparams.nlines;
 lineincr=surveyparams.lineincr;
@@ -42,7 +42,7 @@ for i=0:nlines
     end
     % Read the data
     % dt1read is from lbaradello@ogs.trieste.it
-    filename=fullfile(pnameraw,fname,'.DT1');
+    filename=fullfile(pnameraw,[fname '.DT1']);
     [data,weirdhead]=dt1read(filename);
     % I prefer my own header reader:
     headername=fullfile(pnameraw,fname);
