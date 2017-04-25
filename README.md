@@ -1,57 +1,37 @@
 # GPR-O
 Octave/Matlab programs for processing and plotting 2D and 3D Ground Penetrating Radar data
+Octave is freely available from https://www.gnu.org/software/octave/
 
 Check out the documentation [GPR-O](https://github.com/NSGeophysics/GPR-O/blob/master/doc/GPR-O.pdf)
 
-##Installation instructions for Windows
-To be able to install the software you will need to have the following two programs installed:
+## Installation instructions
 
-Git:
+### Downloading the software
+The easiest way of installing the software is via git. You can obtain git from
 https://git-scm.com/download/win
 
-wget:
-https://sourceforge.net/projects/gnuwin32/files/wget/1.11.4-1/wget-1.11.4-1-setup.exe/
-
-Once they are installed, open a Command Prompt window, switch to the folder in which you would like to install GPR-O, and run
+Once git is installed installed, open a Command Prompt window, switch to the folder in which you would like to install GPR-O, and run
 
 `git clone https://github.com/NSGeophysics/GPR-O.git`
 
-Once the repository is cloned, switch to it
+This will download all the scripts and subfolders and will allow you to easily update the software at a later point
+
+Alternatively, you can just download a zipped version by clicking on "Clone or download" and then "Download ZIP". Once you unzipped the file on your computer, the folder will be named "GPR-O-master". I recommend renaming it to "GPR-O".
+
+## Installing GPR-O
+
+After cloning or unzipping the software package, change directory into its main folder
 
 `cd GPR-O`
 
-and run the setup script
+and open Matlab or Octave.
 
-`setup_windows.bat`
+In Matlab or Octave, run the setup script
 
-This will set up the folder structure and download some additional data files.
-
-
-
-##Installation instructions for Mac/Linux/Unix
-To be able to install GPR-O you will need to have the following two programs installed:
-
-**Git:**
-https://git-scm.com/
-
-**curl:**
-For Mac: It should already be installed. If not, you can get it from package managers such as [MacPorts](https://www.macports.org/), [Homebrew](http://brew.sh/), etc.
-For Linux: If it's not already installed you can use a package manager such as apt-get.
-
-Once they are installed, open a Terminal window, switch to the folder in which you would 
-like to install GPR-O software, and run
-
-`git clone https://github.com/NSGeophysics/GPR-O.git`
-
-Once the repository is cloned, switch to it
-
-`cd GPR-O`
-
-and run the setup script
-
-`./setup.sh`
+`setup`
 
 This will set up the folder structure and download some additional data files.
+
 
 ## Running under Matlab
 After starting Matlab, switch into the GPR-O folder and run in Matlab
