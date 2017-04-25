@@ -6,7 +6,7 @@ Check out the documentation [GPR-O](https://github.com/NSGeophysics/GPR-O/blob/m
 
 ## Installation instructions
 
-### Downloading the software
+### Downloading the GPR-O
 The easiest way of installing the software is via git. You can obtain git from
 https://git-scm.com/download/win
 
@@ -18,7 +18,7 @@ This will download all the scripts and subfolders and will allow you to easily u
 
 Alternatively, you can just download a zipped version by clicking on "Clone or download" and then "Download ZIP". Once you unzipped the file on your computer, the folder will be named "GPR-O-master". I recommend renaming it to "GPR-O".
 
-## Installing GPR-O
+### Installing GPR-O
 After cloning or unzipping the software package, change directory into its main folder
 
 `cd GPR-O`
@@ -32,17 +32,17 @@ In Matlab or Octave, run the setup script
 This will set up the folder structure and download some additional data files.
 
 
-# Running under Matlab
+## Running under Matlab
 After starting Matlab, switch into the GPR-O folder and run in Matlab
 
 `initialize`
 
-# Running under Octave
+## Running under Octave
 After starting Octave, switch into the GPR-O folder and run in Octave
 
 `initialize_octave`
 
-# Keeping GPR-O updated
+## Keeping GPR-O updated
 If you used git to clone the software (instead of downloading a zipped folder), you can update GPR-O by running in a terminal or command prompt:
 
 `git pull origin master`
