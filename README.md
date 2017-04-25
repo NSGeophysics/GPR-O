@@ -10,7 +10,7 @@ Check out the documentation [GPR-O](https://github.com/NSGeophysics/GPR-O/blob/m
 The easiest way of installing the software is via git. You can obtain git from
 https://git-scm.com/download/win
 
-Once git is installed installed, open a Command Prompt window, switch to the folder in which you would like to install GPR-O, and run
+Once git is installed installed, open a Command Prompt or Terminal window, switch to the folder in which you would like to install GPR-O, and run
 
 `git clone https://github.com/NSGeophysics/GPR-O.git`
 
