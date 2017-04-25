@@ -1,5 +1,5 @@
-function data=gainData(data,AGwindow,lines)
-% dataout=gainData(data,AGwindow,lines)
+function data=gainDataAGC(data,AGwindow,lines)
+% dataout=gainDataAGC(data,AGwindow,lines)
 %
 % Makes things further down more visible (normalizes each trace using an
 % along-trace moving energy norm

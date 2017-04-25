@@ -1,5 +1,5 @@
-function data=gainDatatpow(data,tpow,maxt,lines)
-% dataout=gainData(data,tpow,maxt,lines)
+function data=gainDataTPOW(data,tpow,maxt,lines)
+% dataout=gainDataTPOW(data,tpow,maxt,lines)
 %
 % Makes things further down more visible by multiplying each trace with
 % t^tpow
