@@ -45,4 +45,4 @@ After starting Octave, switch into the GPR-O folder and run in Octave
 # Keeping GPR-O updated
 If you used git to clone the software (instead of downloading a zipped folder), you can update GPR-O by running in a terminal or command prompt:
 
-`git pull origin master
+`git pull origin master`
