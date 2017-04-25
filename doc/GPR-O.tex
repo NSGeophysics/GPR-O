@@ -6,9 +6,11 @@
 %\usepackage{float}
 \setlength{\parskip}{0.5cm plus4mm minus3mm}
 
-\textwidth=6.4in \textheight=8.5in \hoffset=-0.7in \voffset=-0.7in
+\usepackage[margin=1in]{geometry}
+%\textwidth=6.4in \textheight=8.5in \hoffset=-0.7in \voffset=-0.7in
 
 \setlength{\parindent}{0cm}
+\setcounter{tocdepth}{1}
 
 \hyphenation{Text-Wrangler}
 
@@ -25,16 +27,28 @@ You can download Octave for free from
 In the following, whenever I say ``run xxxx'' I mean in Octave or
 Matlab, type xxxx and press enter.
 
-Always before you use an Octave program for example by the name xyz,
-run ``help xyz'' without the quotation marks to read about what input
-is required and what the output will be.
+Whenever you use an Octave (or Matlab) program for the first time, for
+example by the name xyz, run ``help xyz'' without the quotation marks
+to read about what input is required and what the output will be.
 
 For all GPR-O programs to run, your current directory (shown at the
-top of your Octave program window) must be the GPR-O folder.
+top of your Octave or Matlab program window) must be the GPR-O
+folder. If you are an advanced user, you can add all the subfolders to
+your Octave or Matlab path.
 
 In the command window you can recall previously entered commands by
 pressing the up and down keys and you can let the computer suggest
 completions of commands with the tab key.
+
+\section{GPR-O installation}
+
+Once you downloaded the GPR-O program files and folders, run, in
+Octave or Matlab (in the GPR-O folder)
+
+\qquad \verb#setup#
+
+This will download some external program files that are necessary to
+run GPR-O.
 
 \section{Data structure and data preparation}
 
@@ -70,7 +84,7 @@ input it requires, and what output it gives.
 For the required input, the help page says:
 
 \verb#surveyparams# A struct with the following fields:
-\vspace{-0.5cm}
+%\vspace{-0.5cm}
 \begin{itemize}
 \item \verb#nlines# The highest line number
 \item \verb"lineincr" The distance between the lines (in meters)
@@ -148,11 +162,11 @@ one of the following mistakes:
   your m-file, or you did not create that folder
 \item when collecting the GPR data, you did not select ``record grid
   data'' and then ``X-lines''. You can see this by looking at your raw
-  data folder. If the files say ``YLINE00.dt1'' etc, or just
-  ``LINE00.dt1'' etc, then that's what happened. No worries, in that
+  data folder. If the files say ``YLINE00.DT1'' etc, or just
+  ``LINE00.DT1'' etc, then that's what happened. No worries, in that
   case you can just run \qquad \verb#preprawdata(surveyparams,1)# if
-  the names are ``YLINE00.dt1'', or \verb#preprawdata(surveyparams,2)#
-  if the names are ``LINE00.dt1''.
+  the names are ``YLINE00.DT1'', or \verb#preprawdata(surveyparams,2)#
+  if the names are ``LINE00.DT1''.
 \end{itemize}
 
 After successfully preprocessing the data, you can load it by running
@@ -167,18 +181,21 @@ Your data is now loaded and stored in the variable ``data''.
 
 \section{Profile data plotting and processing}\label{secProfiles}
 
+\subsection{Plotting the raw data}
+
 Let's have a look at the data you just loaded. Remember that we have
 25 parallel lines that are numbered from 0 to 24. We can plot the
 first line (number 0) by running
 
 \qquad \verb#plotGPRline(data,0);#
 
-It should look something like
 
+It should look something like
 \begin{center}
 \includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
   6.5cm,clip]{figures/GPRline0}
 \end{center}
+
 
 If you want to show the second line, run \verb#plotGPRline(data,1);#,
 \\and for the third line \verb#plotGPRline(data,2);#, etc.
@@ -195,41 +212,54 @@ each other.
 
 In this profile we did not see much else but the black and white
 horizontal stripes in roughly the first 12 nanoseconds. This is
-because the wave that excited the transmitter antenna flew directly
-into the receiver antenna without going through the ground. In this
-setup, the antennae were 0.5 m apart and the frequency was 100 MHz. A
-radar wave moves with the speed of light. In air this is roughly 0.3
-m/ns. A wave of this frequency has length $0.3*10^9$ m/s divided by
-$100*10^6$ 1/s, which is 3 m. For the entire 3 m wave to travel the
-0.5 m, it needs to travel 3.5 m. At the speed of light it takes this
+because the wave that left the transmitter antenna flew directly into
+the receiver antenna without going through the ground. This wave is
+called \emph{air-wave}. In this setup, the antennae were 0.5 m apart
+and the frequency was 100 MHz. A radar wave moves with the speed of
+light. In air this is roughly 0.3 m/ns. A wave of this frequency has
+length $0.3*10^9$ m/s divided by $100*10^6$ 1/s, which is 3 m. For the
+entire 3 m wave to completely pass by the receiver antenna located 0.5
+m away, the wave needs to travel 3.5 m. At the speed of light it takes this
 wave 3.5 m divided by 0.3 m/ns, which is 11.67 ns, exactly the time
-where we see the black and white stripe.
+where we see the black and white stripe end.
+
+\subsection{Removing the air-wave}
 
 So we just saw that our image is dominated by the radar wave traveling
 through air and we don't see much from the waves traveling through
 ground (which are slower but also more weakened when they travel
-through the ground). We therefore want to remove these airwaves to see
+through the ground). We therefore want to remove the air-wave to see
 what is in the ground. Because the distance between the antennae is
-always the same in this profile, the airwave always looks the same at
-each recorded position. Therefore if we average all recorded
-positions, we should only get the airwave out and any other signals
-from the ground should cancel out. We can do this with the function
+always the same in this profile (they were fixed at 0.5 m apart), the
+air-wave always looks the same at each recorded position (in each
+trace). On the other hand, the subsurface will vary along our profile,
+except if there is a perfectly horizontal object in the subsurface all
+the way from the first to the last recorded position, which is rarely
+the case (but can happen, so keep this in mind when doing this
+processing step). If the subsurface does not look the same all the way
+from the first to the last recorded position, but the air-wave does,
+then the average of all recorded traces should look like like the
+air-wave. Therefore if we average the traces for all recorded
+positions and subtract the result from each trace, then we should be
+able to remove the air-wave but keep all the signals from the
+subsurface. We can do this with the function
 \verb#removeHorizontal#. Run
 
 \qquad\verb#dataH=removeHorizontal(data,10000);#
 
-This creates a new variable ``dataH'' that contains the old data with
-horizontal feature removal. We needed to give the program the number
-of measurement locations it should use to average. By giving it a very
-high number, say ``10000'' we just average all locations per
-profile. The less locations you average, the more aggressively you
-remove horizontal features. The most extreme is if you say 1, because
-then you remove everything and end up with no signal at all.
+This creates a new variable ``dataH'' which now has the air-wave
+removed. We needed to give the program the number of measurement
+locations it should use to average. By giving it a very high number,
+say ``10000'' we just average all locations per profile. The less
+locations you average, the more aggressively you remove horizontal
+features. The most extreme is if you say 1, because then you remove
+everything and end up with no signal at all.
 
 Let's see how the processed data looks like. Run
 
 \qquad \verb#plotGPRline(dataH,0);#
 
+\clearpage
 It should look something like
 
 \begin{center}
@@ -240,31 +270,156 @@ It should look something like
 Much better. We can actually see something. But everything we see is
 at early two-way travel times and therefore close to the surface. Why
 could that be?
- 
+
+\subsection{Gaining the data}
+
 The thing with radar waves traveling through ground (as opposed
 through air or space) is that they get weakened (attenuated) quite
-fast. That means that the deeper down the wave travels, the weaker it
+quickly. That means that the deeper down the wave travels, the weaker it
 is, and therefore we can't really see much when it gets bounced off an
 interface in the subsurface and comes back to the surface.
  
 But there is a way to make these deeper signals more visible. We can
 artificially strengthen later travel times by multiplying them with an
-increasing factor. This is called ``gain'' and the function
-\verb#gainData# does just that. In this kind of gain we split up the
-signal at each position into time windows and make them all equally
-strong. This means that the time window close to 200 ns will be
-strongly amplified, while the time window close to 0 ns will not be
-amplified at all. Here we choose the time window 5 ns. Run
+increasing factor. This is called ``gaining the data'', or ``applying
+gain''. GPR-O presently has two different ways of gaining the data and
+depending on your data you want to use one or the other:
+\verb#gainDataTPOW# and \verb#gainDataAGC#.
+
+
+\subsubsection{t-power gain (TPOW)}
+
+The simplest way of increasing the strength of the displayed data with
+depth is to just multiply greater depths with large numbers and
+shallow depths with small numbers. At this point, we are still looking
+at position vs two-way travel time (at a later point we will, for
+constant subsurface velocities, display the data as position vs
+depth). Therefore, we do not increase the strength of the signal along
+the depth axis, but along the two-way-travel-time-axis. A simple but
+flexible way of increasing strength with two-way-travel-time $t$ is to
+just multiply each trace with a power of $t$, so multiply with $t^a$
+and we can choose $a$. So if we say for example $a=1$, then we
+increase strength linearly with $t$. If we say $a=2$, then we increase
+strength with the square of $t$, etc. We can also say $a=1.3$ for
+example, or $a=0.3$, or even negative values for $a$. If we use $a=0$
+then we do nothing with the data and the result looks the same as
+without gaining. If we use a negative $a$, then we increase the strength
+close to the surface and decrease the strength further away (which is
+usually not what we want).
+
+Let's try this with our data set. For example, let's choose
+$a=0.85$. This means we have to run
+
+\qquad \verb#dataHGt=gainDataTPOW(dataH,0.85);#
+
+To plot the first line we run
+
+\qquad \verb#plotGPRline(dataHGt,0);#
+
+The result should look like
+
+\begin{center}
+\includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
+  6.5cm,clip]{figures/GPRlineHGt0}
+\end{center}
+
+This looks very similar to the data with just the air-wave
+removed. The difference is that the objects deeper down (just above 50
+ns) now look a bit stronger and the shallower objects look a bit
+weaker. For this (admittedly not very exciting) data set, the t-power
+gain is not very helpful but for other data sets, where you have
+interesting objects deeper down, the t-power gain may be superior to
+other gains. Generally, when playing with gain it is worthwhile to try
+out different settings. A good philosophy is that you want to enhance
+the target objects you are looking for if they are also in the raw
+data, but you do not want to use processing to create objects that are
+not really in the raw data. 
+
+\subsubsection{Automated gain control (AGC)}
+
+Instead of using a simple power low to increase the strength of the
+signal at greater depth (later two-way travel time), we could also say
+that we want the signal the have about the same strength at all
+depths. One way of doing it is to define a time (depth) window and say
+that the energy of the signal should be the same within each
+window. For this we only need to give a window width (in number of
+time-samples). For example, we want every 5-sample window to have the
+same power. To do that, run
  
-\qquad \verb#dataHG=gainData(dataH,5);#
- 
-This takes a while to process. After it is finished you might want to
+\qquad \verb#dataHGa=gainDataAGC(dataH,5);#
+
+Let's have a look at how the profile looks like after applying
+gain. Run
+
+\qquad \verb#plotGPRline(dataHGa,0);#
+
+It should look something like
+\begin{center}
+\includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
+  6.5cm,clip]{figures/GPRlineHGa0}
+\end{center}
+
+The application of AGC may take a while to calculate, in particular
+because you apply AGC to all 24 parallel profiles of the data set. To
+only apply AGC to a single profile, for example line number 0, you can
+run
+
+\qquad \verb#dataHGa=gainDataAGC(dataH,5,0);#
+
+See
+
+\qquad \verb#help gainDataAGC#
+
+for more information.
+
+
+Play around with the time sample window to see which setting helps
+best to see the target objects you are looking for.
+
+
+\subsection{Plotting with depth}
+
+Up until now we have always plotted our profile lines as a function of
+two-way travel time. But ultimately, we want to know the depth of an
+object. To do that we need to know the speed of radar waves in the
+ground and this depends on the ground itself. We will learn later how
+to use Common MidPoint (CMP) and Wide Aperture Reflection and
+Refraction (WARR) measurements to estimate the velocity of our ground
+but for now we simply use a lookup table, as for example
+  
+\url{http://www.epa.gov/esd/cmb/GeophysicsWebsite/pages/reference/methods/Surface_Geophysical_Methods/Electromagnetic_Methods/Ground-Penetrating_Radar.htm}
+  
+If we scroll down on that page we see that clays have a velocity of
+around 0.06 m/ns. We now simply use this number in the function
+\verb#plotGPRline#
+  
+\qquad \verb#plotGPRline(dataHGa,0,[],0.06);#
+  
+The time axes is now a depth axes in meters. in the previous call we
+needed to add the ``['' and ``]'' characters because the velocity is
+the fourth input of the function \verb#plotGPRline#. The third input
+would be display contrast. If we just want to go with standard display
+contrast, we can use the placeholder ``[ ]'' to say just that. We
+could increase the contrast by for example running
+  
+\qquad \verb#plotGPRline(dataHGa,0,3,0.06);#
+
+Here we are assuming that the radar velocity is constant with
+depth. This is of course not true. We could, for example, encounter a
+situation where we have soil on top of bedrock and the two have very
+different radar velocities. Time-to-depth transformations for varying
+subsurface velocities are currently not implemented in GPR-O.
+
+\subsection{Saving processed data, comparing profiles}
+
+Some of the processing is quite fast, but the AGC can be relatively
+slow. After it is finished you might want to
 save your processed data such that you do not need to start all over
 next time. You can save your data with the command
  
-\qquad \verb#save('exercise1dataHG.mat','dataHG');#
+\qquad \verb#save('exercise1dataHGa.mat','dataHGa');#
  
-This created a new file named ``exercise1dataHG.mat'' in your
+This created a new file named ``exercise1dataHGa.mat'' in your
 directory. You can also give it any other name or store any other
 processed data this way. You can always load this data set now by
 double clicking on it. Try first deleting everything in your current
@@ -275,23 +430,11 @@ Octave session by running
 If you would now try to redo the plots from before you would get an
 error message. Now run
  
-\qquad \verb#load exercise1dataHG.mat#
+\qquad \verb#load exercise1dataHGa.mat#
  
-to load it again.  The loading takes a few seconds.
+to load it again.  The loading takes a few seconds. Try again to plot
+the data as before.
 
-
-Let's have a look at how the profile looks like after applying
-gain. Run
-
-\qquad \verb#plotGPRline(dataHG,0);#
-
-It should look something like
-\begin{center}
-\includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
-  6.5cm,clip]{figures/GPRlineHG0}
-\end{center}
-
-We can see much much more than before.
 
 \emph{You have noticed that whenever you plotted something new, you
   just overwrote the old plot. You can avoid this by running}
@@ -303,35 +446,12 @@ We can see much much more than before.
 Let's try this to see how the profile right next to profile 0 looks
 like. Open a new figure and then run
 
-\qquad \verb#plotGPRline(dataHG,1);#
+\qquad \verb#plotGPRline(dataHGa,1);#
    
 when you compare the two then you will notice that they look very
 similar. That is a good sign; it means that our data measurements are
 reproducible and that we didn't just record random noise.
-  
-A last thing to learn in this chapter is how to turn the travel time
-axis into a depth axis. For that we need to know the speed of radar
-waves in the ground and this depends on the ground itself. We will
-learn later how to use Common MidPoint (CMP) and Wide Aperture
-Reflection and Refraction (WARR) measurements to find out the velocity
-of our ground but for now we simply use a lookup table, as for example
-  
-\url{http://www.epa.gov/esd/cmb/GeophysicsWebsite/pages/reference/methods/Surface_Geophysical_Methods/Electromagnetic_Methods/Ground-Penetrating_Radar.htm}
-  
-If we scroll down on that page we see that clays have a velocity of
-around 0.06 m/ns. We now simply use this number in the function
-\verb#plotGPRline#
-  
-\qquad \verb#plotGPRline(dataHG,0,[],0.06);#
-  
-The time axes is now a depth axes in meters. in the previous call we
-needed to add the ``['' and ``]'' characters because the velocity is
-the fourth input of the function \verb#plotGPRline#. The third input
-would be display contrast. If we just want to go with standard display
-contrast, we can use the placeholder ``[ ]'' to say just that. We
-could increase the contrast by for example running
-  
-\qquad \verb#plotGPRline(dataHG,0,3,0.06);#
+ 
 
 \section{Area plotting}
 
@@ -353,7 +473,7 @@ running \verb#example1#).
 To make the bird's eye plot of a horizontal cut at 17 ns two way
 travel time run
 
-\qquad \verb#plotdata2Dgpr(dataHG,surveyparams,17);#
+\qquad \verb#plotdata2Dgpr(dataHGa,surveyparams,17);#
 
 It should look like this
 \begin{center}
@@ -366,14 +486,14 @@ the profile starting points. if your second profile is to the left of
 your first profile and the third profile is to the left of the second
 profile, etc, you can plot your bird's eye view with
 
-\qquad \verb#plotdata2Dgpr(dataHG,surveyparams,17,1);#
+\qquad \verb#plotdata2Dgpr(dataHGa,surveyparams,17,1);#
 
 You will see that the entire plot is flipped.
 
 Hint: If you save your figure as pdf, then you'll see that it will be
 a bit blurry. You can avoid this by saving your figure as jpg. There
 are ways to get a less blurry pdf by using the \verb#print# function
-in the Command Window.
+in the Octave / Matlab Command Window.
 
 There is clearly a lot of structure in this depth slice. Remember that
 each profile was measured independently. So structure that shows up
@@ -695,11 +815,16 @@ The function
 exports GPR-O data to a .vtk file, which can be
 read by programs like ParaView etc.
 
+\section{Other potentially useful functions}
+
 The function
 
 \qquad \verb#thresh#
 
 Removes values smaller than a percentage of the maximum data point
 value. This can be used to clean up traces before gain and export to VTK.
+
+The function \verb#readSnS_GPS# reads Sensors and Software GPS data,
+as for example the one provided by \url{https://alaska.usgs.gov/portal/project.php?project_id=384} 
 
 \end{document}
