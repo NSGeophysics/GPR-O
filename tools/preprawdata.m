@@ -41,10 +41,12 @@ for i=0:nlines
             fname=sprintf('LINE%02d',i);
     end
     % Read the data
-    % This is from lbaradello@ogs.trieste.it
-    [data,weirdhead]=dt1read([pnameraw fname '.DT1']);
+    % dt1read is from lbaradello@ogs.trieste.it
+    filename=fullfile(pnameraw,fname,'.DT1');
+    [data,weirdhead]=dt1read(filename);
     % I prefer my own header reader:
-    header=readdt1header([pnameraw fname]);
+    headername=fullfile(pnameraw,fname);
+    header=readdt1header(headername);
     % We assume that all traces have an equal number of time samples:
     twtt=linspace(0,header.ttw,header.ppt);
     xpos=linspace(header.stp,header.fip,header.ntr);
@@ -52,8 +54,8 @@ for i=0:nlines
     if strcmp(header.unit,'ft')
         xpos=xpos*0.3048;
     end
-
-    save([pnametrf fname '.mat'],'data','twtt','xpos')
+    savename=fullfile(pnametrf,fname,'.mat');
+    save(savename,'data','twtt','xpos')
     
     fprintf('Done with line %d\n',i)
     
