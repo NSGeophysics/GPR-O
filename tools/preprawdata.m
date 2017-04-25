@@ -54,7 +54,7 @@ for i=0:nlines
     if strcmp(header.unit,'ft')
         xpos=xpos*0.3048;
     end
-    savename=fullfile(pnametrf,fname,'.mat');
+    savename=fullfile(pnametrf,[fname '.mat']);
     save(savename,'data','twtt','xpos')
     
     fprintf('Done with line %d\n',i)
