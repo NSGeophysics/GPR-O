@@ -24,7 +24,7 @@ function varargout=plotGPRline(data,linenr,gain,vel,maxelev)
 % data=readdata2(surveyparams);
 % plotGPRline(data,0); % Plots the first line
 %
-% Last modified by plattner-at-alumni.ethz.ch, 4/14/2017
+% Last modified by plattner-at-alumni.ethz.ch, 4/25/2017
 
 defval('gain',0)
 defval('vel',0)
@@ -32,7 +32,7 @@ defval('maxelev',0)
 
 if vel & ~ maxelev
 	data.finalti=data.finalti*vel/2;
-elseif vel & maxelev
+elseif vel && maxelev
     data.finalti = maxelev - data.finalti*vel/2;
 end
 imagesc(data.finalex,data.finalti,data.gprdata(:,:,linenr+1));
@@ -41,9 +41,9 @@ dmax=max(max(abs(data.gprdata(:,:,linenr+1))));
 if gain
 	caxis([-dmax dmax]/gain)
 end
-if vel & ~maxelev
+if vel && ~maxelev
 	ylabel('Depth [m]')
-elseif vel & maxelev
+elseif vel && maxelev
     ylabel('Elevation [m]')
     axis xy
 else
