@@ -4,3 +4,5 @@
   Also, use fullfile. Automatically read all the lines.
   Then, allow either one single number for the offset, or a vector
 * TODO Improve gpro2vtk to allow for general x y z positions 
+* TODO Write doc part about Stolt fk migration
+tools/stolt_fk_mig.m 
