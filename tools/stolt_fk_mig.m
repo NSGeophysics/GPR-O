@@ -108,6 +108,9 @@ for li=1:length(lines)
   Pkzkx = Pkzkx.*exp(1i*KZ_st*zStart);
   %% Transform back
   im = ifft2(Pkzkx);
+  %% im is in pos vs depth coordinates.
+  %% But for constant velocity, we can just rescale the coordinate axis
+  %% to get time
   dataout.gprdata(:,:,lines(li)+1) = abs(im(1:nZ,1:nX));
   dataout.gprcell{lines(li)+1}=abs(im(1:nZ,1:nX));
 end
