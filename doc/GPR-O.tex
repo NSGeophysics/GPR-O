@@ -366,12 +366,15 @@ that we want the signal to have about the same strength at all
 depths. One way of doing it is to define a time (depth) window and say
 that the energy of the signal should be the same within each
 window. For this we only need to give a window width (in number of
-time-samples). For example, we want every 5-sample window to have the
-same power. To do that, run
+time-samples). Let's say that each measurement within the profile is 
+composed of 300 time-samples (for a depth resolution of 300 pixels).
+By using a 5 time-sample window width, AGC forces each of the (300/5)= 60
+depth intervals (or 5-sample window) to have the same power.
+To do that, run
  
 \qquad \verb#dataHGa=gainDataAGC(dataH,5);#
 
-Let's have a look at how the profile looks like after applying
+Let's see how the profile looks like after applying
 gain. Run
 
 \qquad \verb#plotGPRline(dataHGa,0);#
@@ -388,6 +391,9 @@ only apply AGC to a single profile, for example line number 0, you can
 run
 
 \qquad \verb#dataHGa=gainDataAGC(dataH,5,0);#
+
+This is especially helpful (and time saving) when trying different
+time-sample settings.
 
 See
 
@@ -406,9 +412,9 @@ Up until now we have always plotted our profile lines as a function of
 two-way travel time. But ultimately, we want to know the depth of an
 object. To do that we need to know the speed of radar waves in the
 ground and this depends on the ground itself. We will learn later how
-to use Common MidPoint (CMP) and Wide Aperture Reflection and
+to use Common Mid-Point (CMP) and Wide Aperture Reflection and
 Refraction (WARR) measurements to estimate the velocity of our ground
-but for now we simply use a lookup table, as for example
+but for now we simply use a lookup table:
   
 \url{http://www.epa.gov/esd/cmb/GeophysicsWebsite/pages/reference/methods/Surface_Geophysical_Methods/Electromagnetic_Methods/Ground-Penetrating_Radar.htm}
   
@@ -423,7 +429,7 @@ needed to add the ``['' and ``]'' characters because the velocity is
 the fourth input of the function \verb#plotGPRline#. The third input
 would be display contrast. If we just want to go with standard display
 contrast, we can use the placeholder ``[ ]'' to say just that. We
-could increase the contrast by for example running
+could increase the contrast by running
   
 \qquad \verb#plotGPRline(dataHGa,0,3,0.06);#
 
@@ -837,6 +843,15 @@ The function
 
 exports GPR-O data to a .vtk file, which can be
 read by programs like ParaView etc.
+
+By running
+
+\qquad \verb#help gpro2vtk#
+
+you will see there are six required inputs. For instance, if you
+wanted to export the data with AGC gain from the earlier example, run
+
+\qquad \verb#gpro2vtk(dataHGa,0.06,0.2,0,'Exercise1Data',[]);#
 
 \section{Other potentially useful functions}
 
