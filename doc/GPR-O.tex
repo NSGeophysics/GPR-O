@@ -15,22 +15,34 @@
 
 \hyphenation{Text-Wrangler}
 
-\title{GPR data processing and visualization with GPR-O} \author{Alain
-  Plattner (\url{plattner@alumni.ethz.ch})} \date{\today}
+\title{GPR data processing and visualization with GPR-O}
 
+\author{Alain Plattner (\url{plattner@alumni.ethz.ch})\\Austin Robbins (\url{austin.r.robbins@gmail.com})}
+
+\date{\today} 
+  
 \begin{document}
-\maketitle \tableofcontents
+\maketitle 
+\tableofcontents
 \section{General remarks}
 
 You can download Octave for free from
 \url{https://www.gnu.org/software/octave/}
 
-In the following, whenever I say ``run xxxx'' I mean in Octave or
+If you already possess Octave, we recommend updating to the current version,
+to avoid potential issues with package installation.
+
+In the following, whenever we say ``run xxxx'' we mean in Octave or
 Matlab, type xxxx and press enter.
 
 Whenever you use an Octave (or Matlab) program for the first time, for
-example by the name xyz, run ``help xyz'' without the quotation marks
-to read about what input is required and what the output will be.
+example by the name xyz, run
+ 
+\qquad \verb#help xyz#
+ 
+This will display the required input(s) and show the output(s) of that
+program or function. In general, well-documented programs will also provide
+a description of what the function does. 
 
 For all GPR-O programs to run, your current directory (shown at the
 top of your Octave or Matlab program window) must be the GPR-O
@@ -43,7 +55,12 @@ completions of commands with the tab key.
 
 \section{GPR-O installation}
 
-Once you downloaded the GPR-O program files and folders, run, in
+If you have yet to install GPR-O (you downloaded the documentation only),
+follow the installation instructions here
+
+\url(https://github.com/NSGeophysics/GPR-O)
+
+Once you have downloaded the GPR-O program files and folders, run, in
 Octave or Matlab (in the GPR-O folder)
 
 \qquad \verb#setup#
@@ -55,8 +72,8 @@ run GPR-O.
 
 To use GPR-O, switch to the GPR-O folder on your computer. This folder
 contains a few subfolders and a few m-files. Each m-file is a computer
-program that was written for Octave (or Matlab; they are for our
-programs here interchangeable).
+program that was written for Octave (or Matlab; they are, for our
+programs here, interchangeable).
 
 If you are using Matlab, to access to all the subprograms you need to run
 
@@ -74,7 +91,7 @@ run it, it will not need to install the packages anymore.
 We will use a variety of programs that are stored in the
 subfolders. Whenever you want to know what a program does and what
 variables you need to give it, run ``help programname''. For example,
-we have a program that is named ``readdata''. To find out how to use
+we have a program that is named ``\verb#readdata#''. To find out how to use
 it, run
 
 \qquad \verb#help readdata#
@@ -89,26 +106,24 @@ For the required input, the help page says:
 \begin{itemize}
 \item \verb#nlines# The highest line number
 \item \verb"lineincr" The distance between the lines (in meters)
-\item \verb#pnameraw# String containing the directory of the war files
-  dt1
-\item \verb#pnametrf# String containing the directory for the
-  processed files
+\item \verb#pnameraw# String containing the directory of the raw files dt1
+\item \verb#pnametrf# String containing the directory for the processed files
 \end{itemize}
  
 This variable named \verb#surveyparams# will play a key role in
-GPR-O. For each survey you will need to set it up. This is easiest
+GPR-O. For each survey you will need to set it up. This is easily
 done by writing your own m-file as described in the following.
 
-Double-click on ``Example1.m''. The command window will disappear and
+Double-click on ``\verb#Example1.m#''. The command window will disappear and
 a new window named ``Editor'' will appear.
 
-you will see the first line saying ``surveyparams.nlines=24;'' and
-then a percent sign and then some comment.  This means that the data
+On the first line of the script, you will see ``surveyparams.nlines=24;'' 
+and then a percent sign and then some comment.  This means that the data
 set that we will be working with has 25 parallel lines that are
 numbered $0, 1, 2, \ldots, 24$.
 
 The next line says ``surveyparams.lineincr=0.2;''. This means that the
-distance between the lines is 0.2 m.
+distance between each profile line is 0.2 m.
 
 The following line says
 ``surveyparams.pnameraw='data/raw/example1/';''. This means that the
@@ -126,16 +141,17 @@ The last line in ``example1.m'' says
 the processed data will be stored in the folder
 ``data/processed/example1/''. If you open, on your desktop, the folder
 ``'data/processed', then you will see that it is empty. We need to
-create this folder to continue. \emph{If you don't create this folder
+create this folder to continue. \textbf{If you don't create this folder
   the program will create an error when you try to pre-process the
   data. So make a folder ``example1'' in the directory ``processed''.}
 
-For your own data you will need to create your own m-file and your own
-subfolders in ``processed'' and ``raw''. Use this example as an
-instruction on how to do this.
+For your own data you must create your own m-file (just overwrite 
+``example1.m'' with a new file name and your particular survey parameters).
+Also, you must ensure that you created the propoer folder structure 
+that corresponds to your m-file.
 
 \section{Data preprocessing and data loading}
-\emph{To get back to the Command Window when the Editor is visible,
+\emph{To return to the Command Window when the Editor is visible,
   click on the tab at the bottom of the Octave program window.}
 
 Once you have set up the folder structure and the m-file for your
@@ -144,8 +160,9 @@ variable by running
 
 \qquad \verb#example1#
 
-or whatever the name of your m-file is. You can display the
-surveyparams variable by running
+or whatever the name of your m-file is. Notice that running your program
+loads the ``surveyparam'' variable into the workspace. You can display the
+components of the surveyparams variable by running
 
 \qquad \verb#surveyparams#
 
@@ -178,7 +195,9 @@ The semicolon at the end is necessary to avoid that your screen gets
 filled up with numbers. If that happens you can press ``ctrl-c'' to
 abort and run it again with the semicolon.
  
-Your data is now loaded and stored in the variable ``data''.
+The ``data=readdata(surveyparams)'' command takes the variable structure
+``surveyparams'' as input for the function ``readdata'', and stores the 
+data as the variable ``data'' in the workspace.
 
 \section{Profile data plotting and processing}\label{secProfiles}
 
@@ -197,14 +216,15 @@ It should look something like
   6.5cm,clip]{figures/GPRline0}
 \end{center}
 
-
-If you want to show the second line, run \verb#plotGPRline(data,1);#,
+Notice the function ``plotGPRline'' requires two inputs. The first
+is the variable that contains the processed data, in our case ``data''.
+The second refers to which line we wish to plot. So, if you want to show the second line, run \verb#plotGPRline(data,1);#,
 \\and for the third line \verb#plotGPRline(data,2);#, etc.
  
 You can always export a figure as pdf by clicking, in the figure
 window, on ``File'' and then ``Save As''
 
-What this figure shows is: Along the first profile, at every location,
+What this figure shows is: along the first profile, at every location,
 the GPR sent out a wave and recorded what came back (as a function of
 time). This wave is shown as a row of pixels in grayscale going from
 the top to the bottom. The way we obtain a full 2D image instead of
@@ -220,7 +240,7 @@ and the frequency was 100 MHz. A radar wave moves with the speed of
 light. In air this is roughly 0.3 m/ns. A wave of this frequency has
 length $0.3*10^9$ m/s divided by $100*10^6$ 1/s, which is 3 m. For the
 entire 3 m wave to completely pass by the receiver antenna located 0.5
-m away, the wave needs to travel 3.5 m. At the speed of light it takes this
+m away, the wave needs to travel 3.5 m. At the speed of light, it takes this
 wave 3.5 m divided by 0.3 m/ns, which is 11.67 ns, exactly the time
 where we see the black and white stripe end.
 
@@ -269,15 +289,15 @@ It should look something like
 \end{center}
  
 Much better. We can actually see something. But everything we see is
-at early two-way travel times and therefore close to the surface. Why
+at early, two-way travel times and therefore close to the surface. Why
 could that be?
 
 \subsection{Gaining the data}
 
-The thing with radar waves traveling through ground (as opposed
-through air or space) is that they get weakened (attenuated) quite
+Radar waves traveling through ground (as opposed
+through air or space) are weakened (attenuated) quite
 quickly. That means that the deeper down the wave travels, the weaker it
-is, and therefore we can't really see much when it gets bounced off an
+becomes, and therefore we can't really see much when it gets bounced off an
 interface in the subsurface and comes back to the surface.
  
 But there is a way to make these deeper signals more visible. We can
@@ -334,13 +354,15 @@ other gains. Generally, when playing with gain it is worthwhile to try
 out different settings. A good philosophy is that you want to enhance
 the target objects you are looking for if they are also in the raw
 data, but you do not want to use processing to create objects that are
-not really in the raw data. 
+not really in the raw data. While appropriate gaining will provide the
+best results from a data set, such processing should never replace
+thoughtful survey design (i.e. antennae frequency selection). 
 
 \subsubsection{Automated gain control (AGC)}
 
-Instead of using a simple power low to increase the strength of the
+Instead of using a simple power law to increase the strength of the
 signal at greater depth (later two-way travel time), we could also say
-that we want the signal the have about the same strength at all
+that we want the signal to have about the same strength at all
 depths. One way of doing it is to define a time (depth) window and say
 that the energy of the signal should be the same within each
 window. For this we only need to give a window width (in number of
