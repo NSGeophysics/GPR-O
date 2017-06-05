@@ -1,5 +1,5 @@
 function gpro2vtk(data,vel,linespace,firsty,filename,fl)
-% gpro2vtk(data,vel,linespace,firsty,filename,fl)
+% gpro2vtk(data,vel,linespace,firsty,'filename',fl)
 %
 % Write GPR data out to VTK file. 
 %
@@ -9,7 +9,7 @@ function gpro2vtk(data,vel,linespace,firsty,filename,fl)
 % vel           velocity [m/ns]
 % linespace     space between parallel y lines
 % firsty        y coordinate of the first line
-% filename      output vtk file name
+% filename      output vtk file name (input requires string form: 'filename')
 % fl            which lines have flipped "colors"? Flip them back
 %               Example: line 2 and 7 are flipped, then fl=[2,7]
 %
