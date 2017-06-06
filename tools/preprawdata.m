@@ -7,7 +7,8 @@ function preprawdata(surveyparams,XorY)
 % INPUT:
 %
 % surveyparams  A struct containing the following variables:
-%               nlines      Number of lines in the survey
+%               minline     Lowest line number
+%               nmorelines  Number of lines in the survey
 %               lineincr    Distance between the lines in meters
 %               pnameraw    Full path to the raw data
 %               pnametrf    Full path to the folder in which the
@@ -17,21 +18,22 @@ function preprawdata(surveyparams,XorY)
 %               Y then set XorY=1
 %               nothing then set XorY=2
 %
-% Last modified by plattner-at-alumni.ethz.ch, 4/25/2017
+% Last modified by plattner-at-alumni.ethz.ch, 6/6/2017
 
-nlines=surveyparams.nlines;
+minline=surveyparams.minline;  
+nmorelines=surveyparams.nmorelines;
 lineincr=surveyparams.lineincr;
 pnameraw=surveyparams.pnameraw;
 pnametrf=surveyparams.pnametrf;
 
 defval('XorY',0)
 
-fprintf('Number of lines = %d\n',surveyparams.nlines);
+fprintf('Number of lines = %d\n',surveyparams.nmorelines);
 fprintf('Line increment = %g\n',surveyparams.lineincr);
 fprintf('Folder of raw data is %s\n',surveyparams.pnameraw);
 fprintf('Folder for transformed data is %s\n',surveyparams.pnametrf);
 
-for i=0:nlines
+for i=minline:minline+nmorelines
     switch XorY
         case 0
             fname=sprintf('XLINE%02d',i);

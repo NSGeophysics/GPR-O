@@ -25,7 +25,7 @@ function varargout=plotdata2Dgpr(data,surveyparams,ttime,leftinc,stretch)
 % plotdata2Dgpr(data,surveyparams,25);
 %
 % Last modified by fjsimons-at-alum.mit.edu, 10/10/2012
-% Last modified by plattner-at-alumni.ethz.ch, 11/28/2014
+% Last modified by plattner-at-alumni.ethz.ch, 6/6/2017
 
 defval('leftinc',0)
 defval('stretch',0)
@@ -35,9 +35,9 @@ gprdata=data.gprdata;
 finalex=data.finalex;
 finalti=data.finalti;
 
-yvalues=0:(surveyparams.nlines - 1);
+yvalues=0:(surveyparams.nmorelines - 1);
 yvalues=yvalues*surveyparams.lineincr;
-%0:surveyparams.lineincr:surveyparams.nlines;
+%0:surveyparams.lineincr:surveyparams.nmorelines;
 
 % Find the row in the three-dimensional matrix closest to the requested
 % time slice
