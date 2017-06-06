@@ -38,8 +38,8 @@ gprdata=data.gprdata;
 finalex=data.finalex;
 finalti=data.finalti;
 
-%y=0:(surveyparams.nlines -1);
-y=0:(surveyparams.nlines);
+%y=0:(surveyparams.nmorelines -1);
+y=0:(surveyparams.nmorelines);
 y=y*surveyparams.lineincr;
 
 
