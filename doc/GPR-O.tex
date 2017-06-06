@@ -68,6 +68,12 @@ Octave or Matlab (in the GPR-O folder)
 This will download some external program files that are necessary to
 run GPR-O.
 
+Keep your software and this documentation updated by regularly running, in a
+command prompt/terminal in the folder GPR-O
+
+\qquad \verb#git pull origin master#
+
+
 \section{Data structure and data preparation}
 
 To use GPR-O, switch to the GPR-O folder on your computer. This folder
@@ -253,10 +259,10 @@ through the ground). We therefore want to remove the air-wave to see
 what is in the ground. Because the distance between the antennae is
 always the same in this profile (they were fixed at 0.5 m apart), the
 air-wave always looks the same at each recorded position (in each
-trace). On the other hand, the subsurface will vary along our profile,
-except if there is a perfectly horizontal object in the subsurface all
-the way from the first to the last recorded position, which is rarely
-the case (but can happen, so keep this in mind when doing this
+trace). On the other hand, the subsurface will vary along our profile
+unless there is a perfectly horizontal object in the subsurface all
+the way from the first to the last recorded position (which is rarely
+the case but can happen, so keep this in mind when doing this
 processing step). If the subsurface does not look the same all the way
 from the first to the last recorded position, but the air-wave does,
 then the average of all recorded traces should look like like the
@@ -366,7 +372,7 @@ that we want the signal to have about the same strength at all
 depths. One way of doing it is to define a time (depth) window and say
 that the energy of the signal should be the same within each
 window. For this we only need to give a window width (in number of
-time-samples). Let's say that each measurement within the profile is 
+time-samples). Let's say that each measurement, or trace, within the profile is 
 composed of 300 time-samples (for a depth resolution of 300 pixels).
 By using a 5 time-sample window width, AGC forces each of the (300/5)= 60
 depth intervals (or 5-sample window) to have the same power.
@@ -375,7 +381,7 @@ To do that, run
 \qquad \verb#dataHGa=gainDataAGC(dataH,5);#
 
 Let's see how the profile looks like after applying
-gain. Run
+AGC. Run
 
 \qquad \verb#plotGPRline(dataHGa,0);#
 
@@ -393,17 +399,14 @@ run
 \qquad \verb#dataHGa=gainDataAGC(dataH,5,0);#
 
 This is especially helpful (and time saving) when trying different
-time-sample settings.
+time-sample settings. Play around with the time-sample window to see which setting helps
+best to see the target objects you are looking for.
 
 See
 
 \qquad \verb#help gainDataAGC#
 
 for more information.
-
-
-Play around with the time sample window to see which setting helps
-best to see the target objects you are looking for.
 
 
 \subsection{Plotting with depth}
@@ -416,7 +419,7 @@ to use Common Mid-Point (CMP) and Wide Aperture Reflection and
 Refraction (WARR) measurements to estimate the velocity of our ground
 but for now we simply use a lookup table:
   
-\url{http://www.epa.gov/esd/cmb/GeophysicsWebsite/pages/reference/methods/Surface_Geophysical_Methods/Electromagnetic_Methods/Ground-Penetrating_Radar.htm}
+\url{https://archive.epa.gov/esd/archive-geophysics/web/html/ground-penetrating_radar.html}
   
 If we scroll down on that page we see that clays have a velocity of
 around 0.06 m/ns. We now simply use this number in the function
@@ -439,7 +442,7 @@ situation where we have soil on top of bedrock and the two have very
 different radar velocities. Time-to-depth transformations for varying
 subsurface velocities are currently not implemented in GPR-O.
 
-\subsection{Saving processed data, comparing profiles}
+\subsection{Saving processed data and comparing profiles}
 
 Some of the processing is quite fast, but the AGC can be relatively
 slow. After it is finished you might want to
@@ -477,7 +480,7 @@ like. Open a new figure and then run
 
 \qquad \verb#plotGPRline(dataHGa,1);#
    
-when you compare the two then you will notice that they look very
+When you compare the two profiles, you will probably notice that they look very
 similar. That is a good sign; it means that our data measurements are
 reproducible and that we didn't just record random noise.
  
@@ -491,7 +494,7 @@ be good to look at them together simultaneously. We can do that by
 creating a map view where we display each of these profiles as a strip
 next to each other and provide the two way travel time (corresponding
 to depth) for which we want to look at them. Let's say we want to cut
-through all of the profiles at 25 ns two way travel time and look at
+through all of the profiles at 17 ns two way travel time and look at
 it from bird's eye perspective.
 
 First, make sure that you have loaded or preprocessed the data and
@@ -511,7 +514,7 @@ It should look like this
 \end{center}
 
 The x-axis here is the along-profile axis, while the y-axis contains
-the profile starting points. if your second profile is to the left of
+the profile starting points. If your second profile is to the left of
 your first profile and the third profile is to the left of the second
 profile, etc, you can plot your bird's eye view with
 
@@ -544,14 +547,14 @@ It should look like this
   3cm,clip]{figures/Area30ns.jpg}
 \end{center}
 
-We can still see some structure but it there is much more noise in the
+We can still see some structure but there is much more noise in the
 image.  \\The depth is 1/2 * 30 ns * 0.06 m/ns = 0.9 m.  Considering
 that this is a 100 MHz system it is a bit disappointing that we can
 only see that far. This has to do with signal attenuation (weakening)
 because of the type of soil.  The soil where these data were collected
 is clay-rich and electrically conductive.  From general GPR theory
 (for example
-\href{http://www.epa.gov/esd/cmb/GeophysicsWebsite/pages/reference/methods/Surface_Geophysical_Methods/Electromagnetic_Methods/Ground-Penetrating_Radar.htm}{EPA's
+\href{https://archive.epa.gov/esd/archive-geophysics/web/html/ground-penetrating_radar.html}{EPA's
   GPR site}) we know that attenuation is proportional to electrical
 conductivity. Therefore, in general, conductive soils are bad for GPR
 depth investigations and electrically resistive soils (sand, rock,
@@ -816,24 +819,27 @@ there with the velocities that we just obtained.
 
 \section{Topography}
 
-GPR-O can account for topography. Use the function
+Realistically, your data will not always be collected on flat terrain. 
+GPR-O can account for changes in topography with a two-step process.
+
+First, run
 
 \qquad \verb#makeElev#
 
-to prepare an interpolated topography matrix from elevation values on
-a grid or along a line (the grid has to have the same spacing on each
-line). Then use the function
+\verb#makeElev# prepares an interpolated topography matrix from elevation
+values on a grid or along a line (the grid has to have the same spacing on each
+line). In other terms, your imported gps data provides elevation points along the profile
+that are then connected by interpolation. If your data is 3-D, then ``makeElev''
+generates an interpolated surface mesh. 
+
+Next, use the function
 
 \qquad \verb#elevCorrect#
 
 to shift each trace by the (interpolated) corresponding two-way travel
-time.
+time. 
 
-I will add a more detailed description at a later point. Keep your
-software and this documentation updated by regularly running, in a
-command prompt/terminal in the folder GPR-O
-
-\qquad \verb#git pull origin master#
+%I will add a more detailed description at a later point.
 
 \section{Export to VTK}
 
@@ -849,11 +855,11 @@ By running
 \qquad \verb#help gpro2vtk#
 
 you will see there are six required inputs. For instance, if you
-wanted to export the data with AGC gain from the earlier example, run
+wanted to export the data with AGC gain from the earlier example1, run
 
 \qquad \verb#gpro2vtk(dataHGa,0.06,0.2,0,'Exercise1Data',[]);#
 
-Programs like Paraview offer powerful 3-D visualization to data.
+Programs like Paraview offer powerful 3-D visualization of data.
 Here is a quick example of the exported data, represented in Paraview.
 
 \begin{center}
