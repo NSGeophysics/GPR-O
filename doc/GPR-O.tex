@@ -110,7 +110,8 @@ For the required input, the help page says:
 \verb#surveyparams# A struct with the following fields:
 %\vspace{-0.5cm}
 \begin{itemize}
-\item \verb#nlines# The highest line number
+\item \verb#nlines# The minimum line number
+\item \verb#nmorelines# The number of lines after the minimum line number
 \item \verb"lineincr" The distance between the lines (in meters)
 \item \verb#pnameraw# String containing the directory of the raw files dt1
 \item \verb#pnametrf# String containing the directory for the processed files
@@ -123,10 +124,16 @@ done by writing your own m-file as described in the following.
 Double-click on ``\verb#Example1.m#''. The command window will disappear and
 a new window named ``Editor'' will appear.
 
-On the first line of the script, you will see ``surveyparams.nlines=24;'' 
-and then a percent sign and then some comment.  This means that the data
-set that we will be working with has 25 parallel lines that are
-numbered $0, 1, 2, \ldots, 24$.
+On the first line of the script, you will see ``surveyparams.minline=0;'' 
+and then a percent sign and then some comment. This tells GPR-O that the 
+first data file to call will have a value of ``0'' in the filename, such as ``XLine00''.
+If the first line of your data set starts with, for example, ``XLine02'',
+then you would enter a ``2'' instead.
+
+The second line says ``surveyparams.nmorelines=23;'' which means that
+GPR-O will search for 23 more data files after the initial one is found.
+In order to view a single line from your data, you would simply input
+the line number in ``surveyparams.minline=?;'' and ``surveyparams.nmorelines=0;''.
 
 The next line says ``surveyparams.lineincr=0.2;''. This means that the
 distance between each profile line is 0.2 m.
