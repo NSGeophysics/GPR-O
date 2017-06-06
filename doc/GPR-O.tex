@@ -58,7 +58,7 @@ completions of commands with the tab key.
 If you have yet to install GPR-O (you downloaded the documentation only),
 follow the installation instructions here
 
-\url(https://github.com/NSGeophysics/GPR-O)
+\url{https://github.com/NSGeophysics/GPR-O}
 
 Once you have downloaded the GPR-O program files and folders, run, in
 Octave or Matlab (in the GPR-O folder)
@@ -89,7 +89,7 @@ If you are using Octave, run
 
 \qquad \verb#initialize_octave#
 
-instead. The first time you run this initialization, it will check if
+The first time you run this initialization, it will check if
 all required Octave packages are already installed and if not, will
 automatically install them. This may take a few minutes. Next time you
 run it, it will not need to install the packages anymore.
@@ -102,7 +102,7 @@ it, run
 
 \qquad \verb#help readdata#
 
-Octave will show you a text saying from where function is stored, what
+Octave will show you a text saying from where the function is stored, what
 input it requires, and what output it gives.
 
 For the required input, the help page says:
@@ -110,8 +110,8 @@ For the required input, the help page says:
 \verb#surveyparams# A struct with the following fields:
 %\vspace{-0.5cm}
 \begin{itemize}
-\item \verb#nlines# The minimum line number
-\item \verb#nmorelines# The number of lines after the minimum line number
+\item \verb#nlines# Lowest line number
+\item \verb#nmorelines# Would be 3 if you had 4 parallel line with the numbers 0 1 2 3
 \item \verb"lineincr" The distance between the lines (in meters)
 \item \verb#pnameraw# String containing the directory of the raw files dt1
 \item \verb#pnametrf# String containing the directory for the processed files
@@ -121,17 +121,17 @@ This variable named \verb#surveyparams# will play a key role in
 GPR-O. For each survey you will need to set it up. This is easily
 done by writing your own m-file as described in the following.
 
-Double-click on ``\verb#Example1.m#''. The command window will disappear and
-a new window named ``Editor'' will appear.
+Double-click on ``\verb#Example1.m#'' in the file browser directory within Matlab/Octave. 
+The command window will disappear and a new window named ``Editor'' will appear.
 
 On the first line of the script, you will see ``surveyparams.minline=0;'' 
 and then a percent sign and then some comment. This tells GPR-O that the 
-first data file to call will have a value of ``0'' in the filename, such as ``XLine00''.
+first data file to call will have a value of zero in the filename, such as ``XLine00''.
 If the first line of your data set starts with, for example, ``XLine02'',
 then you would enter a ``2'' instead.
 
-The second line says ``surveyparams.nmorelines=23;'' which means that
-GPR-O will search for 23 more data files after the initial one is found.
+The second line says ``surveyparams.nmorelines=24;'' which means that
+GPR-O will search for 24 more data files after the initial one is found.
 In order to view a single line from your data, you would simply input
 the line number in ``surveyparams.minline=?;'' and ``surveyparams.nmorelines=0;''.
 
@@ -143,11 +143,10 @@ The following line says
 data that we recorded with the GPR is stored in the folder
 ``data/raw/example1/''. Open that folder on your desktop and you will
 see that it contains several files that are named ``XLINE00.DT1'' etc,
-and ``XLINE00.HD'' etc. These are example data files that were
-downloaded from the GPR and we will be working with these as an
-example. For your own data files you will create a folder besides the
-``exercise1'' etc folders in the data directory and store your GPR
-files in there.
+and ``XLINE00.HD'' etc. These are data files from an actual GPR survey 
+and we will be working with these as an example. For your own data files 
+you will create a folder besides the ``exercise1'' etc folders in the data 
+directory and store your GPR files in there.
 
 The last line in ``example1.m'' says
 ``surveyparams.pnametrf='data/processed/example1/';''. This means that
@@ -160,7 +159,7 @@ create this folder to continue. \textbf{If you don't create this folder
 
 For your own data you must create your own m-file (just overwrite 
 ``example1.m'' with a new file name and your particular survey parameters).
-Also, you must ensure that you created the propoer folder structure 
+Also, you must ensure that you created the proper folder structure 
 that corresponds to your m-file.
 
 \section{Data preprocessing and data loading}
@@ -184,7 +183,7 @@ m-file.  Now run
 
 \qquad \verb#preprawdata(surveyparams)#
 
-To preprocess your data. If it doesn't work it is likely that you made
+to preprocess your data. If it doesn't work it is likely that you made
 one of the following mistakes:
 \begin{itemize}
 \item You did not enter the correct folder for your raw data in your
@@ -231,11 +230,13 @@ It should look something like
 
 Notice the function ``plotGPRline'' requires two inputs. The first
 is the variable that contains the processed data, in our case ``data''.
-The second refers to which line we wish to plot. So, if you want to show the second line, run \verb#plotGPRline(data,1);#,
-\\and for the third line \verb#plotGPRline(data,2);#, etc.
+The second refers to which line we wish to plot. So, if you want to show the second line, run 
+\qquad \verb#plotGPRline(data,1);#,
+\\and for the third line
+\qquad \verb#plotGPRline(data,2);#, etc.
  
 You can always export a figure as pdf by clicking, in the figure
-window, on ``File'' and then ``Save As''
+window, on ``File'' and then ``Save As''.
 
 What this figure shows is: along the first profile, at every location,
 the GPR sent out a wave and recorded what came back (as a function of
@@ -317,8 +318,8 @@ But there is a way to make these deeper signals more visible. We can
 artificially strengthen later travel times by multiplying them with an
 increasing factor. This is called ``gaining the data'', or ``applying
 gain''. GPR-O presently has two different ways of gaining the data and
-depending on your data you want to use one or the other:
-\verb#gainDataTPOW# and \verb#gainDataAGC#.
+:\verb#gainDataTPOW# and \verb#gainDataAGC#. The method you choose depends
+upon your data and your target of interest.
 
 
 \subsubsection{t-power gain (TPOW)}
@@ -406,8 +407,8 @@ run
 \qquad \verb#dataHGa=gainDataAGC(dataH,5,0);#
 
 This is especially helpful (and time saving) when trying different
-time-sample settings. Play around with the time-sample window to see which setting helps
-best to see the target objects you are looking for.
+time-sample settings. Play around with the time-sample window to see
+which setting helps show the target objects best.
 
 See
 
@@ -475,8 +476,8 @@ to load it again.  The loading takes a few seconds. Try again to plot
 the data as before.
 
 
-\emph{You have noticed that whenever you plotted something new, you
-  just overwrote the old plot. You can avoid this by running}
+\emph{Have you noticed that whenever you plotted something new, you
+  just overwrote the old plot? You can avoid this by running}
 
 \qquad \verb#figure#
 
@@ -537,7 +538,7 @@ in the Octave / Matlab Command Window.
 There is clearly a lot of structure in this depth slice. Remember that
 each profile was measured independently. So structure that shows up
 cross-cutting across several profile lines is some sort of
-structure. But what it is is the difficult part to find out. Let's
+structure. But interpreting what it is is the difficult part. Let's
 first get an estimation for the actual depth of this bird's eye
 plot. It is at 17 ns two-way travel time, which means the signal
 travelled $17/2=8.5$ ns one way. If we assume a speed of 0.06 m/ns (as
@@ -546,9 +547,9 @@ ns * 0.06 m/ns = 0.51 m.
 
 If we look at greater two-way travel times, corresponding to deeper
 slices, then we see that the structure is less and less well
-visible. A slice at 30 ns gives us
+visible.
 
-It should look like this
+A slice at 30 ns should look like this
 \begin{center}
 \includegraphics[width=0.7\textwidth, trim = 1cm 3cm 1cm
   3cm,clip]{figures/Area30ns.jpg}
@@ -559,10 +560,10 @@ image.  \\The depth is 1/2 * 30 ns * 0.06 m/ns = 0.9 m.  Considering
 that this is a 100 MHz system it is a bit disappointing that we can
 only see that far. This has to do with signal attenuation (weakening)
 because of the type of soil.  The soil where these data were collected
-is clay-rich and electrically conductive.  From general GPR theory
-(for example
-\href{https://archive.epa.gov/esd/archive-geophysics/web/html/ground-penetrating_radar.html}{EPA's
-  GPR site}) we know that attenuation is proportional to electrical
+is clay-rich and is irrigated, making the subsurface rather electrically
+conductive.  From general GPR theory(for example
+\href{http://gpg.geosci.xyz/content/GPR/GPR_physical_properties.html}{GPG's
+  GPR section}) we know that attenuation is proportional to electrical
 conductivity. Therefore, in general, conductive soils are bad for GPR
 depth investigations and electrically resistive soils (sand, rock,
 etc) are good.
@@ -695,13 +696,13 @@ starting two-way travel times, a range for the velocities that it
 should test, and the maximum antenna separation we want to consider.
 
 Let's first see how Octave wants us to provide ranges. If we want to
-have a list of numbers, between a fist number, say 2.3, and a last
+have a list of numbers, between a first number, say 2.3, and a last
 number, say 3.1, and we want all the numbers in between with step, say
 0.1, then we need to write
 
 \qquad\verb#2.3:0.1:3.1#
 
-So let's say we want to calculate the how well all the lines with
+So let's say we want to calculate how well all the lines with
 starting two way travel times between 0 and 20, step size 0.5, fit
 when they have velocities between 0.04 and 0.32 with step size 0.005
 and we want to use maximum antenna separation 8 m. Run
@@ -732,7 +733,7 @@ look at the centers of the blobs. When you hover your mouse over the
 figure you can read the two-way travel time and velocity values of the
 cursor location at the bottom of the figure. The center of the blob at
 the top right seems to be for travel time roughly 1 ns and velocity
-0.3 m/ns. The second blob seems to be very broad. It's center bay be
+0.3 m/ns. The second blob seems to be very broad. It's center may be
 at around time 6.5 ns and velocity 0.3 m/ns. Finally, the center of
 the third blob seems to be at around travel time 9 ns and velocity
 0.085.
@@ -789,7 +790,7 @@ hyperbolas and use \verb#plotWARRhyperbola# and \linebreak
 \verb#plotWARRhypSemblance#.
 
 The answer is: We need to look at the subtle shape of the lines that
-we see in the WARR data plot. It these lines bend, then they are
+we see in the WARR data plot. If these lines bend, then they are
 likely to be hyperbolas. If they are straight, then these are either
 air- or refracted waves. Another option would be to see what happens
 when we use \verb#plotWARRhypSemblance#.  The first two blobs would be
@@ -880,10 +881,30 @@ The function
 
 \qquad \verb#thresh#
 
-Removes values smaller than a percentage of the maximum data point
-value. This can be used to clean up traces before gain and export to VTK.
+removes values smaller than a percentage of the maximum data point
+value. In the default GPR profiles we compiled in this documentation,
+note how the signals (and noise) lie on the greyscale color spectrum. The
+stronger (black or white) bands are generally the strongest signals,
+while the noise is usually averaged out as grey. This function reduces
+the grey by setting small deviations to zero. This can be used to 
+clean up traces before gain and export to VTK.
 
-The function \verb#readSnS_GPS# reads Sensors and Software GPS data,
-as for example the one provided by \url{https://alaska.usgs.gov/portal/project.php?project_id=384} 
+The function
+
+\qquad \verb#stolt_fk_mig#
+
+is a migration tool that removes artifacts within GPR profiles that are
+caused by changing the receiver-transmitter position. The reason that a
+reflection point in the subsurface generates a parabolic arc in radargrams
+is that the two-way distance to a point increases when the antennas are moved
+further from the point in both directions. By incorporating this relationship
+within our processing, we can improve the accuracy of the GPR profile.
+
+The function
+
+\qquad \verb#readSnS_GPS# 
+
+reads Sensors and Software GPS data, such as the one provided by 
+\url{https://alaska.usgs.gov/portal/project.php?project_id=384} 
 
 \end{document}
