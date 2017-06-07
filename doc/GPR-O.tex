@@ -834,7 +834,7 @@ First, run
 
 \qquad \verb#makeElev#
 
-\verb#makeElev# prepares an interpolated topography matrix from elevation
+which prepares an interpolated topography matrix from elevation
 values on a grid or along a line (the grid has to have the same spacing on each
 line). In other terms, your imported gps data provides elevation points along the profile
 that are then connected by interpolation. If your data is 3-D, then ``makeElev''
@@ -898,7 +898,7 @@ caused by changing the receiver-transmitter position. The reason that a
 reflection point in the subsurface generates a parabolic arc in radargrams
 is that the two-way distance to a point increases when the antennas are moved
 further from the point in both directions. By incorporating this relationship
-within our processing, we can improve the accuracy of the GPR profile.
+within your processing, you can improve the accuracy of the GPR profile.
 
 The function
 
@@ -906,5 +906,46 @@ The function
 
 reads Sensors and Software GPS data, such as the one provided by 
 \url{https://alaska.usgs.gov/portal/project.php?project_id=384} 
+
+\section{Command quick-reference}
+
+This section is designed for those that are already familiar with GPR-O's
+functions and general processing steps, but need guick access to
+various commands. Simply adjust these commands with your particular
+survey parameters.
+
+\qquad \verb#initialize#
+	
+\qquad \verb#initialize_octave#
+
+\qquad \verb#preprawdata(surveyparams)#
+
+\qquad \verb#data=readdata(surveyparams);#
+
+\qquad \verb#dataH=removeHorizontal(data,10000);#
+
+\qquad \verb#dataHGt=gainDataTPOW(dataH,0.85);#
+
+\qquad \verb#dataHGa=gainDataAGC(dataH,5);#
+
+\qquad \verb#plotGPRline(dataHGa,0,[],0.06)#
+
+\qquad \verb#plotWARR(data)#						\qquad \verb#plotCMP(data)#
+
+\qquad \verb#plotWARRrefraction(3,0.1,8);#			\qquad \verb#plotCMPrefraction(3,0.1,8);#
+
+\qquad \verb#plotWARRrefSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
+
+\qquad \verb#plotCMPrefSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
+
+\qquad \verb#plotWARRhyperbola(4.5,0.07,8)#			\qquad \verb#plotCMPhyperbola(4.5,0.07,8)#
+
+\qquad \verb#save('exercise1dataHGa.mat',dataHGa);#
+
+\qquad \verb#load exercise1dataHGa.mat#
+
+\qquad \verb#figure#
+
+\qquad \verb#plotdata2Dgpr(dataHGa,surveyparams,17);#
 
 \end{document}
