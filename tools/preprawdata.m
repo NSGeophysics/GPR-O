@@ -1,5 +1,5 @@
-function preprawdata(surveyparams,XorY)
-% preprawdata(surveyparams,XorY)
+function preprawdata(surveyparams,type)
+% preprawdata(surveyparams,type)
 %
 % Used to transform the raw data into the mgp data format, to set the zero
 % time, to set the gain, and to migrate.
@@ -13,13 +13,14 @@ function preprawdata(surveyparams,XorY)
 %               pnameraw    Full path to the raw data
 %               pnametrf    Full path to the folder in which the
 %                           transformed data should be stored
-% XorY          are the filenames starting with X or Y or nothing?
-%               X then set XorY=0 (or leave it out)
-%               Y then set XorY=1
-%               nothing then set XorY=2
+% type          which GPR system and what does the filename start with?
+%               0 PulseEKKO Pro, filenames start with X (default)
+%               1 PulseEKKO Pro, filenames start with Y
+%               2 PulseEKKO Pro, filenames start neither with X nor with Y
+%               3 GSSI  
 %
-% Last modified by plattner-at-alumni.ethz.ch, 6/6/2017
-
+% Last modified by plattner-at-alumni.ethz.ch, 6/17/2017
+  
 minline=surveyparams.minline;  
 nmorelines=surveyparams.nmorelines;
 lineincr=surveyparams.lineincr;
@@ -28,36 +29,58 @@ pnametrf=surveyparams.pnametrf;
 
 defval('XorY',0)
 
-fprintf('Number of lines = %d\n',surveyparams.nmorelines);
-fprintf('Line increment = %g\n',surveyparams.lineincr);
+fprintf('First line = %d\n',surveyparams.minline)
+fprintf('Number of lines = %d\n',surveyparams.nmorelines+1);
+fprintf('Distance between lines = %g\n m',surveyparams.lineincr);
 fprintf('Folder of raw data is %s\n',surveyparams.pnameraw);
 fprintf('Folder for transformed data is %s\n',surveyparams.pnametrf);
 
 for i=minline:minline+nmorelines
-    switch XorY
+    switch type
         case 0
-            fname=sprintf('XLINE%02d',i);
+          fname=sprintf('XLINE%02d',i);
         case 1
-            fname=sprintf('YLINE%02d',i);
+          fname=sprintf('YLINE%02d',i);
         case 2
-            fname=sprintf('LINE%02d',i);
+          fname=sprintf('LINE%02d',i);
+	case 3
+	  fname=sprintf('FILE____%03d',i);
     end
     % Read the data
-    % dt1read is from lbaradello@ogs.trieste.it
-    filename=fullfile(pnameraw,[fname '.DT1']);
-    [data,weirdhead]=dt1read(filename);
-    % I prefer my own header reader:
-    headername=fullfile(pnameraw,fname);
-    header=readdt1header(headername);
-    % We assume that all traces have an equal number of time samples:
-    twtt=linspace(0,header.ttw,header.ppt);
-    xpos=linspace(header.stp,header.fip,header.ntr);
-    % If the unit is feet, we need to change this here
-    if strcmp(header.unit,'ft')
+    if type~=3
+      % Sensors and Software PulseEKKO Pro    
+      % dt1read is from lbaradello@ogs.trieste.it
+      filename=fullfile(pnameraw,[fname '.DT1']);
+      [data,weirdhead]=dt1read(filename);
+      % I prefer my own header reader:
+      headername=fullfile(pnameraw,fname);
+      header=readdt1header(headername);
+      % We assume that all traces have an equal number of time samples:
+      twtt=linspace(0,header.ttw,header.ppt);
+      xpos=linspace(header.stp,header.fip,header.ntr);
+      % If the unit is feet, we need to change this here
+      if strcmp(header.unit,'ft')
         xpos=xpos*0.3048;
+      end
+
+    elseif type==3
+      % GSSI SIR2000
+      filename=fullfile(pnameraw,[fname '.DZT']);
+      [data,header]=dztread(filename);
+      % Each trace has the same number of time samples
+      twtt=linspace(0,header.nanosecptrace,header.sptrace);
+      xpos=header.startposition + ...
+	   linspace(0,size(data,2)/header.scpmeter,size(data,2));
     end
+    
     savename=fullfile(pnametrf,[fname '.mat']);
-    save(savename,'data','twtt','xpos')
+    try
+      save(savename,'data','twtt','xpos')
+    catch
+      warning('Folder to save file did not exist. Making the folder now')
+      mkdir(pnametrf)
+      save(savename,'data','twtt','xpos')
+    end
     
     fprintf('Done with line %d\n',i)
     
