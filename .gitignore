@@ -1,4 +1,5 @@
 .DS_Store
+doc/.DS_Store
 *~
 *.aux
 *.toc
