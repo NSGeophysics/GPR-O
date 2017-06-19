@@ -835,17 +835,31 @@ First, run
 \qquad \verb#makeElev#
 
 which prepares an interpolated topography matrix from elevation
-values on a grid or along a line (the grid has to have the same spacing on each
-line). In other terms, your imported gps data provides elevation points along the profile
-that are then connected by interpolation. If your data is 3-D, then ``makeElev''
-generates an interpolated surface mesh. 
+data. The elevation data can have one of three forms:
+\begin{itemize}
+\item If your data is only a single profile line, then \verb#elevdat# can be
+  just a vector containing the elevation for each profile point
+  coordinate in \verb#xpos#.
+\item If you have topography data for each profile line of a group of
+  parallel lines, then you can provide the topography data for line 1 as
+  \verb#elevdat{1}# containing elevation for the points given in
+  \verb#xpos{1}#, and for line 2 as \verb#elevdat{2}# containing
+  topography for points in \verb#xpos{2}#, etc.
+\item If you have elevation points for a couple of random points
+  within your parallel profile lines, then you can just provide
+  \verb#elevdat=[x y el]#, where \verb#x# are the along-profile and
+  \verb#y# the cross-profile coordinates, and \verb#el# is the
+  elevation. Make sure you include at least the four corner points, as
+  \verb#makeElev# will not extrapolate in this mode.
+\end{itemize}
 
-Next, use the function
+
+Once you have the variable \verb#elev# from \verb#makeElev#, use the function
 
 \qquad \verb#elevCorrect#
 
 to shift each trace by the (interpolated) corresponding two-way travel
-time. 
+time associated with the topography. 
 
 %I will add a more detailed description at a later point.
 
