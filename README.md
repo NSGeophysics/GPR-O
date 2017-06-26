@@ -4,6 +4,8 @@ Octave is freely available from https://www.gnu.org/software/octave/
 
 Check out the documentation [GPR-O](https://github.com/NSGeophysics/GPR-O/blob/master/doc/GPR-O.pdf)
 
+Supported by the National Science Foundation under grant <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1550732">EAR-1550732</a>.
+
 ## Installation instructions
 
 ### Downloading GPR-O
