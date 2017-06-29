@@ -828,11 +828,13 @@ there with the velocities that we just obtained.
 \section{Topography}
 
 Realistically, your data will not always be collected on flat terrain. 
-GPR-O can account for changes in topography with a two-step process.
+GPR-O can account for changes in topography with a two-step process. Note,
+it is generally recommended to use topography correction as your final
+processing step.
 
 First, run
 
-\qquad \verb#makeElev#
+\qquad \verb#makeElev(elevdat,xpos,data,surveyparams)#
 
 which prepares an interpolated topography matrix from elevation
 data. The elevation data can have one of three forms:
@@ -853,6 +855,7 @@ data. The elevation data can have one of three forms:
   \verb#makeElev# will not extrapolate in this mode.
 \end{itemize}
 
+Input ''data'' refers to your GPR data (usually after any desired corrections, such as gain).
 
 Once you have the variable \verb#elev# from \verb#makeElev#, use the function
 
@@ -860,6 +863,21 @@ Once you have the variable \verb#elev# from \verb#makeElev#, use the function
 
 to shift each trace by the (interpolated) corresponding two-way travel
 time associated with the topography. 
+
+For an example of topography correction, we will use a single line of GPS data 
+located in the folder ''data/topo/dune". These elevations correspond to GPR data
+collected from a sand dune. We included a script \verb#run_Dune_Line32.m# that
+contains the survey parameters and file directories necessary. This script then 
+automatically runs \verb#makeElev# and \verb#elevCorrect# and outputs the adjusted
+profile.
+
+The result should look like,
+
+\begin{center}
+\includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
+  6.5cm,clip]{figures/TopoCorrection}
+\end{center}
+
 
 %I will add a more detailed description at a later point.
 
