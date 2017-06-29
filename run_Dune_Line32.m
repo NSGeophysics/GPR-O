@@ -27,10 +27,10 @@ linenr=32;
 topoline=load(fullfile(topodatadir,sprintf('FILE____%03d.txt',linenr)));
 
 % Build topography matrix
-elev=makeElev(topoline(:,2),topoline(:,1),0,data,surveyparams);
+elev=makeElev(topoline(:,2),topoline(:,1),data,surveyparams);
 
 % Correct for topography
 data=elevCorrect(data,elev,vel);
-
+maxelev=max(elev);
 % Show topography
-plotGPRline(data,0,3,vel)
+plotGPRline(data,0,3,vel,maxelev)
