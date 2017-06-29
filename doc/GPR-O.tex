@@ -855,17 +855,19 @@ data. The elevation data can have one of three forms:
   \verb#makeElev# will not extrapolate in this mode.
 \end{itemize}
 
-Input ''data'' refers to your GPR data (usually after any desired corrections, such as gain).
+The input \verb#data# refers to your GPR data (usually after any desired corrections, such as gain).
+
 
 Once you have the variable \verb#elev# from \verb#makeElev#, use the function
 
-\qquad \verb#elevCorrect#
+\qquad \verb#elevCorrect(data,elev,vel)#
 
 to shift each trace by the (interpolated) corresponding two-way travel
-time associated with the topography. 
+time associated with the topography. The input \verb#vel# is required to change two-way travel time 
+into depth in meters and is chosen either through field experiment or from a reference table.
 
 For an example of topography correction, we will use a single line of GPS data 
-located in the folder ''data/topo/dune". These elevations correspond to GPR data
+located in the folder ``data/topo/dune". These elevations correspond to GPR data
 collected from a sand dune. We included a script \verb#run_Dune_Line32.m# that
 contains the survey parameters and file directories necessary. This script then 
 automatically runs \verb#makeElev# and \verb#elevCorrect# and outputs the adjusted
@@ -979,5 +981,9 @@ survey parameters.
 \qquad \verb#figure#
 
 \qquad \verb#plotdata2Dgpr(dataHGa,surveyparams,17);#
+
+\qquad \verb#makeElev(elevdat,xpos,data,surveyparams);#
+
+\qquad \verb#elevCorrect(data,elev,vel);#
 
 \end{document}
