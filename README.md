@@ -10,7 +10,7 @@ Supported by the National Science Foundation under grant <a href="https://www.ns
 
 ### Downloading GPR-O
 The easiest way of installing the software is via git. You can obtain git from
-https://git-scm.com/download/win
+https://git-scm.com/download/
 
 Once git is installed installed, open a Command Prompt or Terminal window, switch to the folder in which you would like to install GPR-O, and run
 

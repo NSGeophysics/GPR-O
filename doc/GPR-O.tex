@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 
+\usepackage{siunitx}
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -121,44 +122,44 @@ This variable named \verb#surveyparams# will play a key role in
 GPR-O. For each survey you will need to set it up. This is easily
 done by writing your own m-file as described in the following.
 
-Double-click on ``\verb#Example1.m#'' in the file browser directory within Matlab/Octave. 
-The command window will disappear and a new window named ``Editor'' will appear.
+Double-click on \verb#Example1.m# in the file browser directory within
+Matlab/Octave.  The command window will disappear and a new window
+named ``Editor'' will appear.
 
-On the first line of the script, you will see ``surveyparams.minline=0;'' 
+On the first line of the script, you will see \verb#surveyparams.minline=0;# 
 and then a percent sign and then some comment. This tells GPR-O that the 
 first data file to call will have a value of zero in the filename, such as ``XLine00''.
 If the first line of your data set starts with, for example, ``XLine02'',
 then you would enter a ``2'' instead.
 
-The second line says ``surveyparams.nmorelines=24;'' which means that
-GPR-O will search for 24 more data files after the initial one is found.
-In order to view a single line from your data, you would simply input
-the line number in ``surveyparams.minline=?;'' and ``surveyparams.nmorelines=0;''.
+The second line says \verb#surveyparams.nmorelines=24;# which means that
+GPR-O will search for 24 more data files after the initial one is
+found.  In order to view a single line from your data, say line number
+6, you would simply input the line number in
+\verb#surveyparams.minline=6;# and \verb#surveyparams.nmorelines=0;#.
 
-The next line says ``surveyparams.lineincr=0.2;''. This means that the
+The next line says \verb#surveyparams.lineincr=0.2;#. This means that the
 distance between each profile line is 0.2 m.
 
 The following line says
-``surveyparams.pnameraw='data/raw/example1/';''. This means that the
+\verb#surveyparams.pnameraw='data/raw/example1/';#. This means that the
 data that we recorded with the GPR is stored in the folder
 ``data/raw/example1/''. Open that folder on your desktop and you will
-see that it contains several files that are named ``XLINE00.DT1'' etc,
-and ``XLINE00.HD'' etc. These are data files from an actual GPR survey 
+see that it contains several files that are named \verb#XLINE00.DT1# etc,
+and \verb#XLINE00.HD# etc. These are data files from an actual GPR survey 
 and we will be working with these as an example. For your own data files 
-you will create a folder besides the ``exercise1'' etc folders in the data 
+you will create a folder besides the \verb#exercise1# etc folders in the data 
 directory and store your GPR files in there.
 
-The last line in ``example1.m'' says
-``surveyparams.pnametrf='data/processed/example1/';''. This means that
+The last line in \verb#example1.m# says
+\verb#surveyparams.pnametrf='data/processed/example1/';#. This means that
 the processed data will be stored in the folder
-``data/processed/example1/''. If you open, on your desktop, the folder
-``'data/processed', then you will see that it is empty. We need to
-create this folder to continue. \textbf{If you don't create this folder
-  the program will create an error when you try to pre-process the
-  data. So make a folder ``example1'' in the directory ``processed''.}
+\verb#data/processed/example1/#. If you open, on your desktop, the folder
+\verb#data/processed#, then you will see that it is empty. We need to
+create this folder to continue.
 
-For your own data you must create your own m-file (just overwrite 
-``example1.m'' with a new file name and your particular survey parameters).
+For your own data you must create your own m-file (for example just copy-paste 
+\verb#example1.m# and edit it for your particular survey parameters).
 Also, you must ensure that you created the proper folder structure 
 that corresponds to your m-file.
 
@@ -167,13 +168,13 @@ that corresponds to your m-file.
   click on the tab at the bottom of the Octave program window.}
 
 Once you have set up the folder structure and the m-file for your
-data, you can, back in the Command Window, set the ``surveyparam''
+data, you can, back in the Command Window, set the \verb#surveyparam#
 variable by running
 
 \qquad \verb#example1#
 
 or whatever the name of your m-file is. Notice that running your program
-loads the ``surveyparam'' variable into the workspace. You can display the
+loads the \verb#surveyparam# variable into the workspace. You can display the
 components of the surveyparams variable by running
 
 \qquad \verb#surveyparams#
@@ -192,11 +193,11 @@ one of the following mistakes:
   your m-file, or you did not create that folder
 \item when collecting the GPR data, you did not select ``record grid
   data'' and then ``X-lines''. You can see this by looking at your raw
-  data folder. If the files say ``YLINE00.DT1'' etc, or just
-  ``LINE00.DT1'' etc, then that's what happened. No worries, in that
+  data folder. If the files say \verb#YLINE00.DT1# etc, or just
+  \verb#LINE00.DT1# etc, then that's what happened. No worries, in that
   case you can just run \qquad \verb#preprawdata(surveyparams,1)# if
-  the names are ``YLINE00.DT1'', or \verb#preprawdata(surveyparams,2)#
-  if the names are ``LINE00.DT1''.
+  the names are \verb#YLINE00.DT1#, or \verb#preprawdata(surveyparams,2)#
+  if the names are \verb#LINE00.DT1#.
 \end{itemize}
 
 After successfully preprocessing the data, you can load it by running
@@ -207,9 +208,9 @@ The semicolon at the end is necessary to avoid that your screen gets
 filled up with numbers. If that happens you can press ``ctrl-c'' to
 abort and run it again with the semicolon.
  
-The ``data=readdata(surveyparams)'' command takes the variable structure
-``surveyparams'' as input for the function ``readdata'', and stores the 
-data as the variable ``data'' in the workspace.
+The \verb#data=readdata(surveyparams)# command takes the variable structure
+\verb#surveyparams# as input for the function \verb#readdata#, and stores the 
+data as the variable \verb#data# in the workspace.
 
 \section{Profile data plotting and processing}\label{secProfiles}
 
@@ -221,19 +222,24 @@ first line (number 0) by running
 
 \qquad \verb#plotGPRline(data,0);#
 
-
+\clearpage
 It should look something like
 \begin{center}
 \includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
   6.5cm,clip]{figures/GPRline0}
 \end{center}
 
-Notice the function ``plotGPRline'' requires two inputs. The first
-is the variable that contains the processed data, in our case ``data''.
-The second refers to which line we wish to plot. So, if you want to show the second line, run 
+Notice the function \verb#plotGPRline# requires two inputs. The first
+is the variable that contains the processed data, in our case \verb#data#.
+The second refers to which line we wish to plot. So, if you want to show the second line, run
+
 \qquad \verb#plotGPRline(data,1);#,
-\\and for the third line
-\qquad \verb#plotGPRline(data,2);#, etc.
+
+and for the third line
+
+\qquad \verb#plotGPRline(data,2);#,
+
+etc.
  
 You can always export a figure as pdf by clicking, in the figure
 window, on ``File'' and then ``Save As''.
@@ -250,13 +256,15 @@ horizontal stripes in roughly the first 12 nanoseconds. This is
 because the wave that left the transmitter antenna flew directly into
 the receiver antenna without going through the ground. This wave is
 called \emph{air-wave}. In this setup, the antennae were 0.5 m apart
-and the frequency was 100 MHz. A radar wave moves with the speed of
-light. In air this is roughly 0.3 m/ns. A wave of this frequency has
-length $0.3*10^9$ m/s divided by $100*10^6$ 1/s, which is 3 m. For the
-entire 3 m wave to completely pass by the receiver antenna located 0.5
-m away, the wave needs to travel 3.5 m. At the speed of light, it takes this
-wave 3.5 m divided by 0.3 m/ns, which is 11.67 ns, exactly the time
-where we see the black and white stripe end.
+and the frequency was \SI{100}{MHz}. A radar wave moves with the speed
+of light. In air this is roughly \SI{0.3}{m\per\nano\second}. A wave
+of this frequency has length \SI{0.3e9}{m\per\second} divided by
+\SI{100e6}{1\per\second}, which is \SI{3}{m}. For the entire \SI{3}{m}
+wave to completely pass by the receiver antenna located \SI{0.5}{m}
+away, the wave needs to travel \SI{3.5}{m}. At the speed of light, it
+takes this wave \SI{3.5}{m} divided by \SI{0.3}{m\per\nano\second},
+which is \SI{11.67}{\nano\second}, exactly the time where we see the
+black and white stripes end.
 
 \subsection{Removing the air-wave}
 
@@ -265,27 +273,27 @@ through air and we don't see much from the waves traveling through
 ground (which are slower but also more weakened when they travel
 through the ground). We therefore want to remove the air-wave to see
 what is in the ground. Because the distance between the antennae is
-always the same in this profile (they were fixed at 0.5 m apart), the
-air-wave always looks the same at each recorded position (in each
-trace). On the other hand, the subsurface will vary along our profile
-unless there is a perfectly horizontal object in the subsurface all
-the way from the first to the last recorded position (which is rarely
-the case but can happen, so keep this in mind when doing this
-processing step). If the subsurface does not look the same all the way
-from the first to the last recorded position, but the air-wave does,
-then the average of all recorded traces should look like like the
-air-wave. Therefore if we average the traces for all recorded
-positions and subtract the result from each trace, then we should be
-able to remove the air-wave but keep all the signals from the
-subsurface. We can do this with the function
+always the same in this profile (they were fixed at \SI{0.5}{m}
+apart), the air-wave always looks the same at each recorded position
+(in each trace). On the other hand, the subsurface will vary along our
+profile unless there is a perfectly horizontal object in the
+subsurface all the way from the first to the last recorded position
+(which is rarely the case but can happen, so keep this in mind when
+doing this processing step). If the subsurface does not look the same
+all the way from the first to the last recorded position, but the
+air-wave does, then the average of all recorded traces should look
+like like the air-wave. Therefore if we average the traces for all
+recorded positions and subtract the result from each trace, then we
+should be able to remove the air-wave but keep all the signals from
+the subsurface. We can do this with the function
 \verb#removeHorizontal#. Run
 
 \qquad\verb#dataH=removeHorizontal(data,10000);#
 
-This creates a new variable ``dataH'' which now has the air-wave
+This creates a new variable \verb#dataH# which now has the air-wave
 removed. We needed to give the program the number of measurement
 locations it should use to average. By giving it a very high number,
-say ``10000'' we just average all locations per profile. The less
+say \si{10000} we just average all locations per profile. The less
 locations you average, the more aggressively you remove horizontal
 features. The most extreme is if you say 1, because then you remove
 everything and end up with no signal at all.
@@ -294,7 +302,7 @@ Let's see how the processed data looks like. Run
 
 \qquad \verb#plotGPRline(dataH,0);#
 
-\clearpage
+%\clearpage
 It should look something like
 
 \begin{center}
@@ -318,7 +326,7 @@ But there is a way to make these deeper signals more visible. We can
 artificially strengthen later travel times by multiplying them with an
 increasing factor. This is called ``gaining the data'', or ``applying
 gain''. GPR-O presently has two different ways of gaining the data and
-:\verb#gainDataTPOW# and \verb#gainDataAGC#. The method you choose depends
+\verb#gainDataTPOW# and \verb#gainDataAGC#. The method you choose depends
 upon your data and your target of interest.
 
 
@@ -400,7 +408,7 @@ It should look something like
 \end{center}
 
 The application of AGC may take a while to calculate, in particular
-because you apply AGC to all 24 parallel profiles of the data set. To
+because you apply AGC to all of the 24 parallel profiles of the data set. To
 only apply AGC to a single profile, for example line number 0, you can
 run
 
@@ -430,7 +438,7 @@ but for now we simply use a lookup table:
 \url{http://gpg.geosci.xyz/content/GPR/table_velocity.html}
   
 If we scroll down on that page we see that clays have a velocity of
-around 0.06 m/ns. We now simply use this number in the function
+around \SI{0.06}{m\per\nano\second}. We now simply use this number in the function
 \verb#plotGPRline#
   
 \qquad \verb#plotGPRline(dataHGa,0,[],0.06);#
@@ -502,7 +510,7 @@ be good to look at them together simultaneously. We can do that by
 creating a map view where we display each of these profiles as a strip
 next to each other and provide the two way travel time (corresponding
 to depth) for which we want to look at them. Let's say we want to cut
-through all of the profiles at 17 ns two way travel time and look at
+through all of the profiles at \SI{17}{\nano s} two way travel time and look at
 it from bird's eye perspective.
 
 First, make sure that you have loaded or preprocessed the data and
@@ -536,32 +544,34 @@ are ways to get a less blurry pdf by using the} \verb#print# \emph{function
 in the Octave / Matlab Command Window.}
 
 There is clearly a lot of structure in this depth slice. Remember that
-each profile was measured independently. So structure that shows up
-cross-cutting across several profile lines is some sort of
+each profile was measured independently. So things that show up
+cross-cutting consistently across several profile lines is subsurface
 structure. But interpreting what it is is the difficult part. Let's
 first get an estimation for the actual depth of this bird's eye
 plot. It is at 17 ns two-way travel time, which means the signal
-travelled $17/2=8.5$ ns one way. If we assume a speed of 0.06 m/ns (as
-we got from the lookup table), then this will give us a depth of 8.5
-ns * 0.06 m/ns = 0.51 m.
+travelled $(\SI{17}{\ns}) / 2 = \SI{8.5}{\nano s}$ one way. If we
+assume a speed of \SI{0.06}{m\per\ns} (as we got from the lookup
+table), then this will give us a depth of $\SI{8.5}{\ns} \cdot
+\SI{0.06}{m\per\ns} = \SI{0.51}{m}$.
 
 If we look at greater two-way travel times, corresponding to deeper
 slices, then we see that the structure is less and less well
 visible.
 
-A slice at 30 ns should look like this
+A slice at \SI{30}{ns} should look like this
 \begin{center}
 \includegraphics[width=0.7\textwidth, trim = 1cm 3cm 1cm
   3cm,clip]{figures/Area30ns.jpg}
 \end{center}
 
 We can still see some structure but there is much more noise in the
-image.  \\The depth is 1/2 * 30 ns * 0.06 m/ns = 0.9 m.  Considering
-that this is a 100 MHz system it is a bit disappointing that we can
-only see that far. This has to do with signal attenuation (weakening)
-because of the type of soil.  The soil where these data were collected
-is clay-rich and is irrigated, making the subsurface rather electrically
-conductive.  From general GPR theory(for example
+image.  \\The depth is $0.5 \cdot \SI{30}{\ns} \cdot \SI{0.06}{m\per\ns}
+= \SI{0.9}{m}$.  Considering that this is a \SI{100}{\MHz} system it is a bit
+disappointing that we can only see that far. This has to do with
+signal attenuation (weakening) because of the type of soil.  The soil
+where these data were collected is clay-rich and is irrigated, making
+the subsurface rather electrically conductive.  From general GPR
+theory (for example
 \href{http://gpg.geosci.xyz/content/GPR/GPR_physical_properties.html}{GPG's
   GPR section}) we know that attenuation is proportional to electrical
 conductivity. Therefore, in general, conductive soils are bad for GPR
@@ -583,7 +593,7 @@ reflector that is (at least where we do our measurements) horizontal.
 Here we will not go into detail about the theory of CMP and WARR
 measurements but will talk about how you can use GPR-O to analyze and
 visualize CMP and WARR data. We will work with the data in the folder
-``example2'', which is WARR data. GPR-O has dedicated programs for
+\verb#example2#, which is WARR data. GPR-O has dedicated programs for
 WARR and CMP. Here we will only work with the WARR programs. The CMP
 programs work the same, you simply need to switch WARR with CMP such
 as for example switch \verb#plotWARRhyperbola# to
@@ -594,21 +604,21 @@ as for example switch \verb#plotWARRhyperbola# to
   estimations}.
 
 As before, we first need to prepare the \verb#surveyparams# variable
-and the data directories. When you open ``example2.m'' you see that
-the raw data directory is ``data/raw/example2/''. In that directory
-you will only see a single line ``XLINE00''.
+and the data directories. When you open \verb#example2.m# you see that
+the raw data directory is \verb#data/raw/example2/#. In that directory
+you will only see a single line \verb#XLINE00#.
 
 \emph{It is generally a good procedure to not mix CMP/WARR lines with
   for example GPR profiles. The reason is that when GPR-O reads the
   data it adjusts every profile such that they all have the same
-  length (needed for the bird's eye slices). So if you have a 5 m CMP
-  data set and a 20 m profile in the same folder, the profile will get
-  truncated at 5 m. So keep them in separate folders and treat them as
+  length (needed for the bird's eye slices). So if you have a \SI{5}{m} CMP
+  data set and a \SI{20}{m} profile in the same folder, the profile will get
+  truncated at \SI{5}{m}. So keep them in separate folders and treat them as
   individual surveys.}
 
-The processed directory in the m-file ``example2.m'' says
-``data/processed/example2/''. If we go to the folder
-``data/processed/'' we see that this folder does not yet exist. So we
+The processed directory in the m-file \verb#example2.m# says
+\verb#data/processed/example2/#. If we go to the folder
+\verb#data/processed/# we see that this folder does not yet exist. So we
 need to make it.
 
 Then, go back to the Command Window (using the tab at the bottom) and
@@ -644,24 +654,23 @@ noise. Why would that be?
  
 The answer is: the farther away the antennae are, the more the signal
 gets attenuated. To compensate for that effect and to still be able to
-see the signal when the antennae are 8 m apart, we amplify the
+see the signal when the antennae are \SI{8}{m} apart, we amplify the
 measured traces for larger antennae distances. But with that, we also
 amplify the noise.
  
 The following part requires you to have a basic understanding of
-CMP/WARR velocity determination. If you are confused by what we do
-next, please read it up in your textbook.
+CMP/WARR velocity determination. 
  
-How can we obtain subsurface velocity from this WARR data set. We
+How can we obtain subsurface velocity from this WARR data set? We
 could guess a velocity and whether the wave is being refracted or
 reflected and then plot the corresponding line/hyperbola over the
 curve to see if we are right.
  
 Let's assume for now that we can see a refracted wave with velocity
-0.1 m/ns that starts (for antenna distance 0 m, which we can't see
-because we can't physically put the antennae on top of each other) at
-two-way travel time 3 ns. We can plot how this wave would look like on
-top of this plot with
+\SI{0.1}{m\per\ns} that starts (for antenna distance \SI{0}{m}, which
+we can't see because we can't physically put the antennae on top of
+each other) at two-way travel time \SI{3}{\ns}. We can plot how this wave
+would look like on top of this plot with
  
 \qquad \verb#plotWARRrefraction(3,0.1,8);#
   
@@ -702,10 +711,11 @@ number, say 3.1, and we want all the numbers in between with step, say
 
 \qquad\verb#2.3:0.1:3.1#
 
-So let's say we want to calculate how well all the lines with
-starting two way travel times between 0 and 20, step size 0.5, fit
-when they have velocities between 0.04 and 0.32 with step size 0.005
-and we want to use maximum antenna separation 8 m. Run
+So let's say we want to calculate how well all the lines with starting
+two way travel times of \SIrange{0}{20}{\ns}, step size \SI{0.5}{\ns},
+fit when they have velocities of \SIrange{0.04}{0.32}{m\per\ns}
+with step size \SI{0.005}{\ns} and we want to use maximum antenna
+separation \SI{8}{m}. Run
 
 \qquad\verb#plotWARRrefSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
 
@@ -733,10 +743,10 @@ look at the centers of the blobs. When you hover your mouse over the
 figure you can read the two-way travel time and velocity values of the
 cursor location at the bottom of the figure. The center of the blob at
 the top right seems to be for travel time roughly 1 ns and velocity
-0.3 m/ns. The second blob seems to be very broad. It's center may be
-at around time 6.5 ns and velocity 0.3 m/ns. Finally, the center of
-the third blob seems to be at around travel time 9 ns and velocity
-0.085.
+\SI{0.3}{m\per\ns}. The second blob seems to be very broad. It's
+center may be at around travel time \SI{6.5}{\ns} and velocity
+\SI{0.3}{m\per\ns}. Finally, the center of the third blob seems to be
+at around travel time \SI{9}{\ns} and velocity \SI{0.085}{m\per\ns}.
  
 Let's see what these blobs could represent. To do that, let's first
 redo the figure with the WARR data:
@@ -769,20 +779,21 @@ After adding the last line your figure should look like this
 \end{center}
 
 So it looks like we have two refracted waves that travel with velocity
-0.3 m/ns and one refracted wave that travels with velocity 0.085
-m/ns. The speed of radar waves in air is roughly 0.3 m/s. From this we
-know immediately that the first two waves traveled through air and not
-through the ground. The separation between them, about 5 ns,
-corresponds to the distance 0.3 m/ns * 5 ns = 1.5 m. This is exactly
-half the length of the wave in air (3 m). Therefore the ``second''
+\SI{0.3}{m\per\ns} and one refracted wave that travels with velocity
+\SI{0.085}{m\per\ns}. The speed of radar waves in air is roughly
+\SI{0.3}{m\per\ns}. From this we know immediately that the first two
+waves traveled through air and not through the ground. The separation
+between them, about \SI{5}{\ns}, corresponds to the distance
+$\SI{0.3}{m\per\ns} \cdot \SI{5}{\ns} = \SI{1.5}{m}$. This is exactly
+half the length of the wave in air (\SI{3}{m}). Therefore the ``second''
 wave is simply the second lobe of the airwave traveling directly from
 the source antenna to the receiver without going through the ground.
 
-The last wave has a velocity of 0.085 m/ns. This is completely within
-the normal range we would expect for this type of soil and confirmed
-that we were a bit off with our guess from the table. This wave is
-called direct wave. It moves just below the surface as a refracted
-wave on the air/surface interface.
+The last wave has a velocity of \SI{0.085}{m\per\ns}. This is
+completely within the normal range we would expect for this type of
+soil and confirmed that we were a bit off with our guess from the
+table. This wave is called direct wave. It moves just below the
+surface as a refracted wave on the air/surface interface.
 
 The question is now: How did we know that these are refracted and not
 reflected waves? For reflected waves we would have needed to fit
@@ -794,15 +805,17 @@ we see in the WARR data plot. If these lines bend, then they are
 likely to be hyperbolas. If they are straight, then these are either
 air- or refracted waves. Another option would be to see what happens
 when we use \verb#plotWARRhypSemblance#.  The first two blobs would be
-centered at travel time 1.6 ns and velocity 0.28 m/ns, and time 10 ns
-and velocity 0.25 m/ns. Both of these velocities are outside of what
-we would expect for any type of soil and they would be too slow for
-air. The last blob would be centered at velocity 0.07 m/ns and time
-14.5 ns, leading to a slightly lower velocity estimation of the
-soil. To figure out which of the two velocities: 0.07 or 0.085 we
-should trust more, we can look at the hyperbola drawn over the WARR
-data and compare it to the refraction line drawn over the WARR data
-and see which one we thing fits slightly better:
+centered at travel time \SI{1.6}{\ns} and velocity
+\SI{0.28}{m\per\ns}, and time \SI{10}{ns} and velocity
+\SI{0.25}{m\per\ns}. Both of these velocities are outside of what we
+would expect for any type of soil and they would be too slow for
+air. The last blob would be centered at velocity \SI{0.07}{m\per\ns}
+and time \SI{14.5}{\ns}, leading to a slightly lower velocity
+estimation of the soil. To figure out which of the two velocities:
+\SI{0.07}{m\per\ns} or \SI{0.085}{m\per\ns} we should trust more, we
+can look at the hyperbola drawn over the WARR data and compare it to
+the refraction line drawn over the WARR data and see which one we
+thing fits slightly better:
 
 \qquad \verb#figure#
 
@@ -818,8 +831,8 @@ and see which one we thing fits slightly better:
 It is hard to tell but I think I see that close to the left edge of
 the graph, the magenta line curves a bit more than the thick line in
 the WARR data.  One approach in such a case of doubt is to give a
-depth range of an object based on the two different velocities 0.07
-m/ns and 0.085 m/ns.
+depth range of an object based on the two different velocities
+\SI{0.07}{m\per\ns} and \SI{0.085}{m\per\ns}.
 
 At this point, in a geophysical investigation, we would go back to the
 the GPR profiles in Section~\ref{secProfiles} and replace the velocity
@@ -852,7 +865,8 @@ data. The elevation data can have one of three forms:
   \verb#elevdat=[x y el]#, where \verb#x# are the along-profile and
   \verb#y# the cross-profile coordinates, and \verb#el# is the
   elevation. Make sure you include at least the four corner points, as
-  \verb#makeElev# will not extrapolate in this mode.
+  \verb#makeElev# will not extrapolate in this mode. Set the variable
+  \verb#xpos# to \verb#[]#.
 \end{itemize}
 
 The input \verb#data# refers to your GPR data (usually after any desired corrections, such as gain).
@@ -867,21 +881,22 @@ time associated with the topography. The input \verb#vel# is required to change 
 into depth in meters and is chosen either through field experiment or from a reference table.
 
 For an example of topography correction, we will use a single line of GPS data 
-located in the folder ``data/topo/dune". These elevations correspond to GPR data
+located in the folder \verb#data/topo/dune#. These elevations correspond to GPR data
 collected from a sand dune. We included a script \verb#run_Dune_Line32.m# that
 contains the survey parameters and file directories necessary. This script then 
 automatically runs \verb#makeElev# and \verb#elevCorrect# and outputs the adjusted
 profile.
 
-The result should look like,
 
-\begin{center}
-\includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
-  6.5cm,clip]{figures/TopoCorrection}
-\end{center}
+%% The result should look like,
+
+%% \begin{center}
+%% \includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
+%%   6.5cm,clip]{figures/TopoCorrection}
+%% \end{center}
 
 
-%I will add a more detailed description at a later point.
+%I will add a more detailed description at a later point. FIGURE IS MISSING
 
 \section{Export to VTK}
 
