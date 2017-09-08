@@ -1,5 +1,5 @@
-function data=zerotimeAdj(data,timeshift)
-% outdata=zerotimeAdj(data,timeshift)
+function data=shiftTimes(data,timeshift)
+% outdata=shiftTimes(data,timeshift)
 %
 % Moves the time axis by subtracting timeshift from the
 % two-way travel time values  
@@ -14,7 +14,7 @@ function data=zerotimeAdj(data,timeshift)
 %
 % outdata      data with shifted zero-time
 %
-% Last modified by plattner-at-alumni.ethz.ch, 6/15/2017  
+% Last modified by plattner-at-alumni.ethz.ch, 9/08/2017  
 
 
 data.finalti=data.finalti - timeshift;  
