@@ -1,10 +1,11 @@
-function traceout=Smooth(trace,window)
+function traceout=Dewow(trace,window)
 
 
 % Similar to AutoGain, we use a running window to
-% calculate the average in each window and then replace the samples with
-% that average
+% calculate the average in each window and then subtract that average from the samples
+% 
 
+averages=nan(size(trace));
 traceout=nan(size(trace));
 
 % First check if window length is too large. If it is, make it the maximum
@@ -27,8 +28,8 @@ for i=1:length(trace)
         winend=length(trace);
     end            
     
-    traceout(i)=mean(trace(winstart:winend));
+    averages(i)=mean(trace(winstart:winend));
 end
 
-    
+traceout=trace-averages;    
     
