@@ -18,8 +18,9 @@ function dataout=stolt_fk_mig(data,vel,lines,fLow,fHigh)
 % dataout    GPR-O data with stolt f-k migrated sections. Resampled
 %
 % Original by Martin H. Skjelvareid, 01/03/2016  
-% Last modified by plattner-at-alumni.ethz.ch, 5/22/2017
+% Last modified by plattner-at-alumni.ethz.ch, 10/02/2017
 
+defval('lines',0);
 defval('fLow',1e5);       
 defval('fHigh',1e9);
 
