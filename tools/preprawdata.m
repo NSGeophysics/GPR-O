@@ -31,7 +31,7 @@ defval('XorY',0)
 
 fprintf('First line = %d\n',surveyparams.minline)
 fprintf('Number of lines = %d\n',surveyparams.nmorelines+1);
-fprintf('Distance between lines = %g\n m',surveyparams.lineincr);
+fprintf('Distance between lines = %g\n',surveyparams.lineincr);
 fprintf('Folder of raw data is %s\n',surveyparams.pnameraw);
 fprintf('Folder for transformed data is %s\n',surveyparams.pnametrf);
 
