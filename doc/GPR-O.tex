@@ -182,7 +182,7 @@ components of the surveyparams variable by running
 This should show you all the information you previously put into your
 m-file.  Now run
 
-\qquad \verb#preprawdata(surveyparams)#
+\qquad \verb#preprawdata(surveyparams,0)#
 
 to preprocess your data. If it doesn't work it is likely that you made
 one of the following mistakes:
@@ -197,8 +197,12 @@ one of the following mistakes:
   \verb#LINE00.DT1# etc, then that's what happened. No worries, in that
   case you can just run \qquad \verb#preprawdata(surveyparams,1)# if
   the names are \verb#YLINE00.DT1#, or \verb#preprawdata(surveyparams,2)#
-  if the names are \verb#LINE00.DT1#.
+  if the names are \verb#LINE00.DT1#. If you are working with .dzt
+  files, run \verb#preprawdata(surveyparams,3)#.
 \end{itemize}
+The input number \verb#0# at \verb#preprawdata(surveyparams,0)# tells
+GPR-O that you are using Sensors and Software .dt1 files that start
+with ``XLINE''. See \verb~help preprawdata~ for more information.
 
 After successfully preprocessing the data, you can load it by running
 
