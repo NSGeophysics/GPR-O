@@ -1,21 +1,22 @@
-function plotCMPrefSemblance(data,trng,vrng,xmax,linenr,renorm)
-% plotCMPrefSemblance(data,trng,vrng,xmax,linenr,renorm)
+function plotWARRlinSemblance(data,trng,vrng,xmax,linenr,renorm)
+% plotWARRlinSemblance(data,trng,vrng,xmax,linenr,renorm)
 % 
-% Plot the refraction line scores for different travel time ranges 
-% and velocity ranges to see which one fits best.
+% Plot the linear moveout scores for different travel time ranges 
+% and velocity ranges to see which one fits best for a WARR data set.
 %
 % INPUT:
 %
-% data          The data structure for the CMP read from 
+% data          The data structure for the WARR read from 
 %               readdata2(surveyparams)
 % trng          two way travel time ('depth') range
 % vrng          velocity range
 % xmax          maximum semi-offset 
 % linenr        Which line to plot (not required)
-% renorm 		Plot score of renormalized CMP gathers? (not required)
+% renorm 		Plot score of renormalized WARR gathers? (not required)
 %
 % Last modified by plattner-at-alumni.ethz.ch, 04/30/2015
-
+% function name change: 02/14/2018
+  
 defval('linenr',0)
 defval('renorm',0)
 
@@ -29,7 +30,7 @@ end
 
 for i=1:length(vrng)
     for j=1:length(trng)
-        scr(i,j)=refractionScore(data,trng(j),vrng(i),xmax,linenr);
+        scr(i,j)=WARRlinearScore(data,trng(j),vrng(i),xmax,linenr);
     end
 end
 
@@ -38,6 +39,5 @@ imagesc(vrng,trng,abs(scr)')
 longticks
 xlabel('velocity')
 ylabel('two way travel time')
-title('Refraction line scores for different velocities and time depths')
+title('Refraction line scores for different velocities and time depths for WARR')
 colorbar
-

@@ -666,24 +666,24 @@ The following part requires you to have a basic understanding of
 CMP/WARR velocity determination. 
  
 How can we obtain subsurface velocity from this WARR data set? We
-could guess a velocity and whether the wave is being refracted or
-reflected and then plot the corresponding line/hyperbola over the
+could guess a velocity and whether the wave has a linear moveout or
+is reflected and then plot the corresponding line/hyperbola over the
 curve to see if we are right.
  
-Let's assume for now that we can see a refracted wave with velocity
+Let's assume for now that we can see a linear wave moveout with velocity
 \SI{0.1}{m\per\ns} that starts (for antenna distance \SI{0}{m}, which
 we can't see because we can't physically put the antennae on top of
 each other) at two-way travel time \SI{3}{\ns}. We can plot how this wave
 would look like on top of this plot with
  
-\qquad \verb#plotWARRrefraction(3,0.1,8);#
+\qquad \verb#plotWARRlinear(3,0.1,8);#
   
 The last number, 8, was to say how far out we want to draw the
-  refracted wave line.
+   wave arrival line.
  
 \begin{center}
 \includegraphics[width=0.7\textwidth, trim = 0.9cm 6cm 2cm
-  6.5cm,clip]{figures/WARRrefracted}
+  6.5cm,clip]{figures/WARRlinear}
 \end{center}
 
 It seems as if our guess was not so good. But it is generally very
@@ -697,7 +697,7 @@ positive or negative value, then their sum will be large. On the other
 hand, if our line crosses lines of positive and negative values, or
 just runs through noise, then the summands will cancel out and the sum
 will be small. Let's do this. The function for it is
-\verb#plotWARRrefSemblance#.
+\verb#plotWARRlinSemblance#.
 
 Before we continue, let's open a new figure to make sure we do not
 half-way overwrite the old one with what's to come. Run
@@ -721,7 +721,7 @@ fit when they have velocities of \SIrange{0.04}{0.32}{m\per\ns}
 with step size \SI{0.005}{\ns} and we want to use maximum antenna
 separation \SI{8}{m}. Run
 
-\qquad\verb#plotWARRrefSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
+\qquad\verb#plotWARRlinSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
 
 This calculation might take a while. To speed it up you can make the
 step size a bit larger but that will also make the resulting image
@@ -729,20 +729,20 @@ coarser.
 
 \begin{center}
 \includegraphics[width=0.7\textwidth, trim = 1cm 0cm 1cm
-  0cm,clip]{figures/WARRrefSemblance.jpg}
+  0cm,clip]{figures/WARRlinSemblance.jpg}
 \end{center}
 The x-axis of this plot shows the different velocities that your
 computer tested and the y-axis shows the different two-way travel
 times at zero antenna distance. Dark-blue means low sum values, so
 that means that for these velocity/two-way travel time choices, the
-refracted wave lines do not fit any lines in the data. Light blue to
+linear wave arrival times do not fit any lines in the data. Light blue to
 green to red values means that for these choices of velocity/two-way
-travel times, the refracted wave lines match a line in the data.
+travel times, the linear wave arrivals match a line in the data.
 
 We see three smeared out blobs of good matching. The reason for the
-smearing out is that the refracted wave lines in the data are
-relatively wide. So even if the chosen refracted wave line is a bit
-off, it still lies within the broad actual refracted wave line. Let's
+smearing out is that the linear wave arrivals in the data are
+relatively wide. So even if the chosen linear wave arrival is a bit
+off, it still lies within the broad actual line. Let's
 look at the centers of the blobs. When you hover your mouse over the
 figure you can read the two-way travel time and velocity values of the
 cursor location at the bottom of the figure. The center of the blob at
@@ -760,19 +760,19 @@ redo the figure with the WARR data:
 \qquad \verb#plotWARR(data);#
 
 That's just the WARR data that we already saw. Let's put the
-refraction curve corresponding to the first blob on top of this:
+linear arrivals corresponding to the first blob on top of this:
  
-\qquad \verb#plotWARRrefraction(1,0.3,8);#
+\qquad \verb#plotWARRlinear(1,0.3,8);#
 
 It perfectly overlaps with the first black line in the WARR
 data. Now the second one:
 
-\qquad \verb#plotWARRrefraction(6.5,0.3,8);#
+\qquad \verb#plotWARRlinear(6.5,0.3,8);#
 
 This one perfectly overlaps with the white line parallel to the black
 line. Now the third blob:
 
-\qquad \verb#plotWARRrefraction(9,0.085,8);#
+\qquad \verb#plotWARRlinear(9,0.085,8);#
 
 This one follows the black line that was at an angle.
 
@@ -782,8 +782,8 @@ After adding the last line your figure should look like this
     6.5cm,clip]{figures/WARRlines}
 \end{center}
 
-So it looks like we have two refracted waves that travel with velocity
-\SI{0.3}{m\per\ns} and one refracted wave that travels with velocity
+So it looks like we have two linear wave arrivals that travel with velocity
+\SI{0.3}{m\per\ns} and one linear wave arrival that travels with velocity
 \SI{0.085}{m\per\ns}. The speed of radar waves in air is roughly
 \SI{0.3}{m\per\ns}. From this we know immediately that the first two
 waves traveled through air and not through the ground. The separation
@@ -797,9 +797,9 @@ The last wave has a velocity of \SI{0.085}{m\per\ns}. This is
 completely within the normal range we would expect for this type of
 soil and confirmed that we were a bit off with our guess from the
 table. This wave is called direct wave. It moves just below the
-surface as a refracted wave on the air/surface interface.
+surface.
 
-The question is now: How did we know that these are refracted and not
+The question is now: How did we know that these are direct and not
 reflected waves? For reflected waves we would have needed to fit
 hyperbolas and use \verb#plotWARRhyperbola# and \linebreak
 \verb#plotWARRhypSemblance#.
@@ -807,7 +807,7 @@ hyperbolas and use \verb#plotWARRhyperbola# and \linebreak
 The answer is: We need to look at the subtle shape of the lines that
 we see in the WARR data plot. If these lines bend, then they are
 likely to be hyperbolas. If they are straight, then these are either
-air- or refracted waves. Another option would be to see what happens
+air- or ground waves. Another option would be to see what happens
 when we use \verb#plotWARRhypSemblance#.  The first two blobs would be
 centered at travel time \SI{1.6}{\ns} and velocity
 \SI{0.28}{m\per\ns}, and time \SI{10}{ns} and velocity
@@ -818,7 +818,7 @@ and time \SI{14.5}{\ns}, leading to a slightly lower velocity
 estimation of the soil. To figure out which of the two velocities:
 \SI{0.07}{m\per\ns} or \SI{0.085}{m\per\ns} we should trust more, we
 can look at the hyperbola drawn over the WARR data and compare it to
-the refraction line drawn over the WARR data and see which one we
+the linear arrivals drawn over the WARR data and see which one we
 thing fits slightly better:
 
 \qquad \verb#figure#
@@ -985,11 +985,11 @@ survey parameters.
 
 \qquad \verb#plotWARR(data)#						\qquad \verb#plotCMP(data)#
 
-\qquad \verb#plotWARRrefraction(3,0.1,8);#			\qquad \verb#plotCMPrefraction(3,0.1,8);#
+\qquad \verb#plotWARRlinear(3,0.1,8);#			\qquad \verb#plotCMPlinear(3,0.1,8);#
 
-\qquad \verb#plotWARRrefSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
+\qquad \verb#plotWARRlinSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
 
-\qquad \verb#plotCMPrefSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
+\qquad \verb#plotCMPlinSemblance(data,1:0.3:20,0.04:0.003:0.35,8);#
 
 \qquad \verb#plotWARRhyperbola(4.5,0.07,8)#			\qquad \verb#plotCMPhyperbola(4.5,0.07,8)#
 
