@@ -37,5 +37,5 @@ imagesc(vrng,trng,abs(scr)')
 longticks
 xlabel('velocity')
 ylabel('two way travel time')
-title('Hyperbola scores for different velocities and time depths for WARR')
+title('Hyperbolic semblance scores for different velocities and time depths for WARR')
 colorbar
